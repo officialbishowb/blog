@@ -3,14 +3,17 @@ import Link from "next/link";
 import { formatDate } from "@/libs/formatDate";
 import Image from "next/image";
 import { Metadata } from "next";
+import { PostIdParams } from "@/types";
 
 export const metadata: Metadata = {
   title: "Tag Posts",
   description: "Tag Posts",
 };
 
-const TagPost = async ({ params }: { params: { postId: string } }) => {
-  const { postId } = params;
+
+
+const TagPost = async ({ params }: { params: PostIdParams }) => {
+  const { postId } = await params;
   const allPostsByTags = getSortedPostIdsByTag(postId);
 
   return (

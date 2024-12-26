@@ -12,16 +12,12 @@ import TOC from "@/components/TOC";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { Metadata } from "next";
+import { PostIdParams } from "@/types";
 
 
-interface PageProps {
-  params: Promise<{
-    postId: string;
-  }>;
-}
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { postId } = await params;
+export async function generateMetadata(props: { params: PostIdParams }): Promise<Metadata> {
+  const { postId } = await props.params;
   const posts = getSortedPostsData();
 
   const post = posts.find((post) => post.id === postId);
@@ -35,9 +31,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-
-const Post = async ({ params }: PageProps) => {
-  const { postId } = await params;
+export default async function Post(props: { params: PostIdParams }) {
+  const { postId } = await props.params;
   const posts = getSortedPostsData();
 
   const post = posts.find((post) => post.id === postId);
@@ -138,6 +133,4 @@ const Post = async ({ params }: PageProps) => {
       </div>
     </div>
   );
-};
-
-export default Post;
+}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { formatDate } from "@/libs/formatDate";
 import Image from "next/image";
 import { Metadata } from "next";
+import { PostIdParams } from "@/types";
 
 export const metadata: Metadata = {
   title: "Category Posts",
@@ -10,10 +11,9 @@ export const metadata: Metadata = {
 };
 
 
+const TagPost = async ({ params }: { params: PostIdParams }) => {
 
-const TagPost = async ({ params }: { params: { postId: string } }) => {
-
-  const { postId } = params;
+  const { postId } = await params;
   const allPostsByCategories = getSortedPostIdsByCategory(postId);
 
   return (

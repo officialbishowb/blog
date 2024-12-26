@@ -17,3 +17,5 @@ export interface PostMetaData {
   export interface TOCProps {
     headings: { id: string; title: string; level: number }[];
 }
+
+export type PostIdParams = Promise<{ postId: string }>;
