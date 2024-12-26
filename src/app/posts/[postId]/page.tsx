@@ -11,10 +11,10 @@ import styles from "@/app/styles/Post.module.css";
 import TOC from "@/components/TOC";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
-import {highlightCode} from '@/libs/highlightBlogCode';
+import { Metadata } from "next";
 
 
-export function generateMetaData({ params }: { params: { postId: string } }) {
+export async function generateMetadata({ params }: { params: { postId: string } }): Promise<Metadata> {
   const { postId } = params;
   const posts = getSortedPostsData();
 
@@ -25,9 +25,10 @@ export function generateMetaData({ params }: { params: { postId: string } }) {
 
   return {
     title: post.title,
-    date: post.date,
+    description: post.description,
   };
 }
+
 
 const Post = async ({ params }: { params: { postId: string } }) => {
   const { postId } = await params;
