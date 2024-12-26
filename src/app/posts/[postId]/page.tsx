@@ -11,6 +11,8 @@ import styles from "@/app/styles/Post.module.css";
 import TOC from "@/components/TOC";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
+import {highlightCode} from '@/libs/highlightBlogCode';
+
 
 export function generateMetaData({ params }: { params: { postId: string } }) {
   const { postId } = params;
@@ -28,7 +30,7 @@ export function generateMetaData({ params }: { params: { postId: string } }) {
 }
 
 const Post = async ({ params }: { params: { postId: string } }) => {
-  const { postId } = params;
+  const { postId } = await params;
   const posts = getSortedPostsData();
 
   const post = posts.find((post) => post.id === postId);
@@ -41,10 +43,9 @@ const Post = async ({ params }: { params: { postId: string } }) => {
 
   // Format the date
   const formattedDate = formatDate(new Date(date));
-
   const postHeadings = await getPostDataHeader(postId);
-
   const postUrl = `https://blog.officialbishowb.com/posts/${postId}`;
+
 
   return (
     <div className="container mx-auto px-10 py-8 mt-40 flex justify-center">

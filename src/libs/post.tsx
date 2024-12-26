@@ -4,6 +4,8 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 import { addIdsToHeaders } from './addIdsToHeaders';
+import { formatUrls } from './formatUrls';
+import { highlightCode } from './highlightBlogCode';
 
 import { PostData, TOCProps, PostMetaData } from '@/types';
 
@@ -18,15 +20,19 @@ export function getSortedPostsData(): PostMetaData[] {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
 
+    if (!fileContents.trim()) {
+      return null;
+    }
+
     return {
       id: fileName.replace(/\.mdx$/, ''),
       ...matterResult.data,
     } as PostMetaData;
-  }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }).filter(post => post !== null).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export async function getPostData(id: string): Promise<PostData & { contentHtml: string }> {
-  const fullPath = path.join(postsDirectory, `${id}.mdx`); // Ensure file extension matches your markdown files
+  const fullPath = path.join(postsDirectory, `${id}.mdx`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   // Extract metadata and content
@@ -38,6 +44,12 @@ export async function getPostData(id: string): Promise<PostData & { contentHtml:
 
   // Add ids to headers
   contentHtml = addIdsToHeaders(contentHtml);
+
+  // Format links
+  contentHtml = formatUrls(contentHtml);
+
+  // Highlight code blocks
+  contentHtml = highlightCode(contentHtml);
 
   return {
     ...(matterResult.data as PostMetaData),

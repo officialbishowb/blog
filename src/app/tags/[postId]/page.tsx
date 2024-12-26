@@ -2,20 +2,13 @@ import { getSortedPostIdsByTag } from "@/libs/post";
 import Link from "next/link";
 import { formatDate } from "@/libs/formatDate";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 
-export function generateMetaData({ params }: { params: { postId: string } }) {
-  const { postId } = params;
-  const posts = getSortedPostIdsByTag(postId);
+export function generateMetaData(): { title: string; description: string; } {
 
-  const post = posts.find((post) => post.id === postId);
-  if (!post) {
-    return notFound();
-  }
-
+  
   return {
-    title: post.title,
-    date: post.date,
+    title: `Tag Posts`,
+    description: `All posts by tag`,
   };
 }
 

@@ -10,6 +10,11 @@ export default async function Home() {
     <div className="min-h-screen bg-gray-100 mt-20">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
+        {allPostsData.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-lg text-foreground">No posts found.</p>
+          </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {allPostsData.map(({ id, title, description, date, heroImage, category }, index) => (
             <div
@@ -41,6 +46,7 @@ export default async function Home() {
             </div>
           ))}
         </div>
+        )}
       </div>
     </div>
   );
