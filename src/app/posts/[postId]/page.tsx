@@ -14,8 +14,14 @@ import { FaLinkedin } from "react-icons/fa";
 import { Metadata } from "next";
 
 
-export async function generateMetadata({ params }: { params: { postId: string } }): Promise<Metadata> {
-  const { postId } = params;
+interface PageProps {
+  params: Promise<{
+    postId: string;
+  }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { postId } = await params;
   const posts = getSortedPostsData();
 
   const post = posts.find((post) => post.id === postId);
@@ -30,7 +36,7 @@ export async function generateMetadata({ params }: { params: { postId: string } 
 }
 
 
-const Post = async ({ params }: { params: { postId: string } }) => {
+const Post = async ({ params }: PageProps) => {
   const { postId } = await params;
   const posts = getSortedPostsData();
 
