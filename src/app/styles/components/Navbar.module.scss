@@ -1,18 +1,25 @@
 .navItem {
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    border: 2px solid transparent; 
-    transition: background-color 0.3s, border 0.3s;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  border: 2px solid transparent;
+  transition: background-color 0.3s, border 0.3s;
 
-    &:hover {
-        background-color: #363540;
-        border-color: #505050; 
-    }
+  &:hover {
+    background-color: #363540;
+    border-color: #505050;
+  }
 }
 
+.navbar ol, .navbar ul, .navbar li, .navbar menu {
+  list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
 .navItemSelected {
-    background-color: #363540; 
-    color: white;
-    font-weight: bold; 
-    border-radius: var(--border-radius);
+  background-color: #363540;
+  color: white;
+  font-weight: bold;
+  border-radius: var(--border-radius);
 }

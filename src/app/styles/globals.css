@@ -69,7 +69,36 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'LeagueSpartan-Bold', sans-serif;
+  color: var(--accent-color);
+  padding: .5em 0;
+  margin: 0;
 }
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.9rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+
 
 p {
   font-family: 'LeagueSpartan-Regular', sans-serif;
@@ -131,4 +160,27 @@ label {
 ::selection {
   background: var(--accent-color);
   color: var(--background);
+}
+
+ul, li, menu {
+  all: revert; /* Reset all properties to their default state as defined by the browser */
+}
+
+
+
+code{
+  background-color: var(--gray);
+  color: var(--accent-color);
+  padding: 0.25rem;
+  border-radius: var(--border-radius);
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  display: block;
+  border-radius: 0.25rem; 
+  background-color: var(--gray); 
+  border: 1px solid var(--foreground);
+  padding: 1rem; 
+  margin: .5em 0;
 }

@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <nav className="fixed bottom-20 left-1/2 transform -translate-x-1/2 sm:top-10 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:bottom-auto border border-gray-500 rounded-lg z-50 sm:bg-opacity-50 backdrop-filter-none bg-background sm:bg-transparent sm:backdrop-blur-2xl flex justify-center items-center p-2 shadow-lg">
+        <nav className={`${styles.navbar} fixed bottom-20 left-1/2 transform -translate-x-1/2 sm:top-10 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:bottom-auto border border-gray-500 rounded-lg z-50 sm:bg-opacity-50 backdrop-filter-none bg-background sm:bg-transparent sm:backdrop-blur-2xl flex justify-center items-center p-2 shadow-lg`}>
             <ul className="flex flex-row justify-center items-center space-x-1 sm:space-x-4">
                 {navItems.map((item) => (
                     <li key={item.href}>
