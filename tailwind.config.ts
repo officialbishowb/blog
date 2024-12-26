@@ -11,6 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        border_radius: "var(--border-radius)",
+        gray: "var(--gray)",
+        accent: "var(--accent-color)",
+        light_gray: "var(--light-gray)",
       },
     },
   },

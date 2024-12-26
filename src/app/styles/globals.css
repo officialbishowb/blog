@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --gray: #363540;
+  --light-gray: #75747a;
+  --foreground: #090909;
+  --accent-color: #A7EBCB;
+  --border-radius: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #090909;
+    --foreground: #ffffff;
+    --gray: #363540;
+    --light-gray: #75747a;
+  }
+}
+
+html {
+ scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+
+
+/** Define FONT FAMILY */
+
+@font-face {
+  font-family: 'LeagueSpartan-Black';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Bold';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Light';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Medium';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Regular';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Thin';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Thin.ttf') format('truetype');
+}
+
+
+/** Define font family for headers & content */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+p {
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+a {
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+/** Define font family for buttons */
+
+button {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+/** Define font family for navigation */
+
+nav {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+/** Define font family for footer */
+
+footer {
+  font-family: 'LeagueSpartan-Light', sans-serif;
+}
+
+/** Define font family for form elements */
+
+input, select, textarea {
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+/** Define font family for labels */
+
+label {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+
+/** Define font family for error and success messages */
+
+.error, .success {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+.highlight {
+  color: var(--accent-color);
+  background: var(--gray);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.text-underline {
+  border-bottom: 2px solid var(--accent-color);
+}
+
+
+::selection {
+  background: var(--accent-color);
+  color: var(--background);
+}
