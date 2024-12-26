@@ -175,6 +175,11 @@ ul, li, menu {
   color: var(--accent-color);
 }
 
+hr {
+  border: 1px solid var(--light-gray);
+  margin: 1rem 0;
+}
+
 
 /** Define custom desgin for code blocks */
 code[class*="language-"],
