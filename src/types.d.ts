@@ -3,7 +3,6 @@ export interface PostMetaData {
     title: string;
     description: string;
     date: string;
-    heroImage: string;
     tags: string[];
     category: string;
   }

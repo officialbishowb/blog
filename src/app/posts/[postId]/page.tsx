@@ -6,7 +6,6 @@ import {
 } from "@/libs/post";
 import { notFound } from "next/navigation";
 import { calculateReadTime } from "@/libs/calculateReadTime";
-import Image from "next/image";
 import styles from "@/app/styles/Post.module.css";
 import TOC from "@/components/TOC";
 import { FaSquareXTwitter } from "react-icons/fa6";
@@ -107,14 +106,6 @@ export default async function Post(props: { params: PostIdParams }) {
                 ))}
             </div>
 
-          {/* Hero Image */}
-          <Image
-            src={post.heroImage}
-            alt={title}
-            width={800}
-            height={400}
-            className="rounded-lg w-full mt-6"
-          />
 
           {/* Table of Contents for medium screens */}
           <div className="block xl:hidden mt-8">

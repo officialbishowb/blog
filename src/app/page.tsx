@@ -1,7 +1,6 @@
 import { getSortedPostsData } from "@/libs/post";
 import Link from "next/link";
 import { formatDate } from "@/libs/formatDate";
-import Image from "next/image";
 
 export default async function Home() {
   const allPostsData = getSortedPostsData();
@@ -15,37 +14,33 @@ export default async function Home() {
             <p className="text-lg text-foreground">No posts found.</p>
           </div>
         ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {allPostsData.map(({ id, title, description, date, heroImage, category }, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {allPostsData.map(({ id, title, description, date, category }, index) => (
             <div
               key={id}
-              className={`bg-gray text-foreground rounded-lg shadow-md ${
-                index === 0 ? "col-span-3" : ""
+              className={`bg-gray text-foreground rounded-lg shadow-md flex flex-col ${
+                index === 0 ? "md:col-span-2" : ""
               }`}
             >
               <Link href={`/posts/${id}`}>
-                <Image 
-                  src={heroImage} 
-                  alt={title} 
-                  className="w-full h-48 object-cover rounded-t-lg" 
-                  width={300} 
-                  height={200} 
-                />
-                <div className="p-4">
-                  <p className="text-xl font-semibold text-accent-color hover:underline">{title}</p>
-                  <p className="text-gray-700 mt-2">{description}</p>
-                  <small className="text-light-gray mt-2 block">Published on {formatDate(new Date(date))}</small>
+                <div className="p-4 flex-grow">
+                  <p className="text-xl font-semibold text-accent hover:underline">{title}</p>
+                  <p className="text-gray-700 mt-4">{description}</p>
+                  <small className="text-light_gray mt-2 block">Published on {formatDate(new Date(date))}</small>
                 </div>
               </Link>
-
-              <p className="text-md block text-gray-500 mt-5 p-4">
-                <Link href={`/categories/${category}`} className="bg-gray text-light_gray px-2 py-1 rounded-lg mr-2">
-                {category}</Link>
-                 
-              </p>
+        
+              <div className="mt-auto pl-4 py-2">
+                <p className="text-md block text-gray-500">
+                  <Link href={`/categories/${category}`} className="bg-gray text-light_gray rounded-lg mr-2">
+                    {category}
+                  </Link>
+                </p>
+              </div>
             </div>
           ))}
         </div>
+        
         )}
       </div>
     </div>
