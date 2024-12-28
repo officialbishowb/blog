@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --gray: #363540;
+  --light-gray: #75747a;
+  --foreground: #090909;
+  --accent-color: #A7EBCB;
+  --border-radius: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #090909;
+    --foreground: #ffffff;
+    --gray: #363540;
+    --light-gray: #75747a;
+  }
+}
+
+html {
+ scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+
+
+/** Define FONT FAMILY */
+
+@font-face {
+  font-family: 'LeagueSpartan-Black';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Bold';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Light';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Medium';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Regular';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LeagueSpartan-Thin';
+  src: url('/assets/fonts/league_spartan/LeagueSpartan-Thin.ttf') format('truetype');
+}
+
+
+/** Define font family for headers & content */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+  color: var(--accent-color);
+  padding: .5em 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.9rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+
+
+p {
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+a {
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+/** Define font family for buttons */
+
+button {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+/** Define font family for navigation */
+
+nav {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+/** Define font family for footer */
+
+footer {
+  font-family: 'LeagueSpartan-Light', sans-serif;
+}
+
+/** Define font family for form elements */
+
+input, select, textarea {
+  font-family: 'LeagueSpartan-Regular', sans-serif;
+}
+
+/** Define font family for labels */
+
+label {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+
+/** Define font family for error and success messages */
+
+.error, .success {
+  font-family: 'LeagueSpartan-Bold', sans-serif;
+}
+
+.highlight {
+  color: var(--accent-color);
+  background: var(--gray);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.text-underline {
+  border-bottom: 2px solid var(--accent-color);
+}
+
+
+::selection {
+  background: var(--accent-color);
+  color: var(--background);
+}
+
+ul, li, menu {
+  all: revert; /* Reset all properties to their default state as defined by the browser */
+}
+
+
+/** Blog specific styles */
+
+
+.url-underline {
+  text-decoration: underline;
+  color: var(--accent-color);
+}
+
+hr {
+  border: 1px solid var(--light-gray);
+  margin: 1rem 0;
+}
+
+
+/** Define custom desgin for code blocks */
+code[class*="language-"],
+pre[class*="language-"] {
+  display: block;
+  border-radius: 0.25rem; 
+  background-color: var(--gray); 
+  border: 1px solid var(--foreground);
+  padding: 1rem; 
+  margin: .5em 0;
+}
+
+
+/** Define custom design for inline code */
+code {
+  background-color: var(--gray);
+  color: var(--accent-color);
+  padding: 0.25rem;
+  border-radius: var(--border-radius);
+}
+
+
+/** Define custom design for blockquotes */
+blockquote {
+  border-left: 5px solid var(--accent-color);
+  padding: 1rem;
+  margin: 1rem 0;
+  background: var(--gray);
+  border-radius: var(--border-radius);
+}
+
+
+.token.comment, .token.prolog, .token.doctype, .token.cdata {
+  color: var(--light-gray);
+}
+
+.token.punctuation {
+  color: var(--light-gray);
+}
+
+.token.namespace {
+  opacity: .7;
+}
+
+.token.property, .token.tag, .token.constant, .token.symbol, .token.deleted {
+  color: var(--accent-color);
+}
+
+.token.boolean, .token.number {
+  color: var(--accent-color);
+}
+
+.token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted {
+  color: var(--accent-color);
+}
+
+.token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string {
+  color: var(--accent-color);
+}
+
+.token.atrule, .token.attr-value, .token.keyword {
+  color: var(--accent-color);
+}
+
+.token.function {
+  color: var(--accent-color);
+}
+
+.token.regex, .token.important {
+  color: var(--accent-color);
+}
+
+.token.important, .token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
