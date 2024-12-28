@@ -12,6 +12,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { Metadata } from "next";
 import { PostIdParams } from "@/types";
+import Link from "next/link";
 
 
 
@@ -49,7 +50,7 @@ export default async function Post(props: { params: PostIdParams }) {
 
 
   return (
-    <div className="container mx-auto px-10 py-8 mt-40 flex justify-center">
+    <div className="container mx-auto px-10 py-8 mt-10 sm:mt-40 flex justify-center">
       <div className="w-full flex flex-col md:flex-row">
         {/* Table of Contents */}
         <div className="hidden xl:block xl:w-1/3 mr-8">
@@ -91,18 +92,18 @@ export default async function Post(props: { params: PostIdParams }) {
           {/* Tags */}
             <div className="flex flex-wrap mt-4">
                 {post.tags.map((tag) => (
-                <a
-                    key={tag}
-                    href={`/tags/${tag}`}
-                    className="bg-gray text-light_gray px-2 py-1 rounded-lg mr-2"
+                <Link
+                  key={tag}
+                  href={`/tags/${tag}`}
+                  className="bg-gray text-light_gray px-2 py-1 rounded-lg mr-2 mb-2"
                 >
-                    <span
-                    key={tag}
-                    className="text-foreground px-2 py-1 rounded-full mr-2 mb-2"
+                  <span
+                  key={tag}
+                  className="text-foreground px-2 py-1 rounded-full"
                 >
-                    {tag}
+                  {tag}
                 </span>
-                </a>
+                </Link>
                 ))}
             </div>
 
