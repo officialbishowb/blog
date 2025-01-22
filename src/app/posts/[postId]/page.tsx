@@ -6,12 +6,12 @@ import {
 } from "@/libs/post";
 import { notFound } from "next/navigation";
 import { calculateReadTime } from "@/libs/calculateReadTime";
-import styles from "@/app/styles/Post.module.css";
 import TOC from "@/components/TOC";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { Metadata } from "next";
 import { PostIdParams } from "@/types";
+import CopyLinkButton from "@/components/CopyLinkButton";
 import Link from "next/link";
 
 
@@ -83,6 +83,10 @@ export default async function Post(props: { params: PostIdParams }) {
               >
                 <FaLinkedin size={24} />
               </a>
+
+              {/* Copy Link */}
+              <CopyLinkButton link={postUrl} />
+                
             </div>
           </div>
 
@@ -118,7 +122,7 @@ export default async function Post(props: { params: PostIdParams }) {
 
           {/* Post Content */}
           <div
-            className={`prose max-w-none ${styles.content}`}
+            className={`prose max-w-none`}
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
         </div>

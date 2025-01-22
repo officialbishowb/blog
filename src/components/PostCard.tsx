@@ -17,7 +17,7 @@ const PostCard: React.FC<PostDisplayProps> = ({ posts, title, emptyMessage }) =>
               <div
                 key={id}
                 className={`bg-gray text-foreground rounded-lg shadow-md flex flex-col ${
-                  index === 0 ? "md:col-span-2" : ""
+                  index === 0 ? "border-2 border-foreground" : ""
                 }`}
               >
                 <Link href={`/posts/${id}`}>
