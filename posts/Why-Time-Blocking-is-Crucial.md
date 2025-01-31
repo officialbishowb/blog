@@ -40,7 +40,7 @@ Timeboxing is similar to task batching, only the different is that you set a **h
 
 The Pomodoro Technique is a time blocking method which where you set 25 minutes for task followed up with a 5 minute break. This method forces you to get the task done due to the element of time pressure. After the time is up you will take a 5 minute break and move up or continue with the previous task.
 
-#### >  AI time blocking < 
+#### ⮞ AI time blocking ⮜
 
 Nowadays AI is everywhere even when it comes to time blocking. Of course planning tasks for each day is tough - it requires some extra time to do this. Therefore there are tools like Reclaim.ai (which I personally use) or Motion, which can help you plan the task you enter **automatically**. You just enter the task, the time it will probably take and when you want to finish it then the AI takes over takes your current events in your calendar into account and then plan the given tasks automatically. This way you save a lot of time which can be used for other things.
 
