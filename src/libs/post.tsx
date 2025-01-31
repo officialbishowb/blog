@@ -6,8 +6,12 @@ import html from 'remark-html';
 import { addIdsToHeaders } from './addIdsToHeaders';
 import { formatUrls } from './formatUrls';
 import { highlightCode } from './highlightBlogCode';
+import breaks from 'remark-breaks';  
 
 import { PostData, TOCProps, PostMetaData } from '@/types';
+import { containerizeContent } from './containerizeContent';
+import { convertToDropdowns } from './convertToDropdowns';
+import { addClassToLinks } from './addClassToLinks';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -25,21 +29,21 @@ export function getSortedPostsData(): PostMetaData[] {
     }
 
     return {
-      id: fileName.replace(/\.mdx$/, ''),
+      id: fileName.replace(/\.md$/, ''),
       ...matterResult.data,
     } as PostMetaData;
   }).filter(post => post !== null).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export async function getPostData(id: string): Promise<PostData & { contentHtml: string }> {
-  const fullPath = path.join(postsDirectory, `${id}.mdx`);
+  const fullPath = path.join(postsDirectory, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   // Extract metadata and content
   const matterResult = matter(fileContents);
 
   // Convert Markdown to HTML using remark
-  const processedContent = await remark().use(html).process(matterResult.content);
+  const processedContent = await remark().use(html).use(breaks).process(matterResult.content);
   let contentHtml = processedContent.toString();
 
   // Add ids to headers
@@ -48,18 +52,29 @@ export async function getPostData(id: string): Promise<PostData & { contentHtml:
   // Format links
   contentHtml = formatUrls(contentHtml);
 
+  // Add classes to links
+  contentHtml = addClassToLinks(contentHtml, 'blog-link');
+
   // Highlight code blocks
   contentHtml = highlightCode(contentHtml);
 
+  // Create dropdowns if the heading is has a specific prefix
+  contentHtml = convertToDropdowns(contentHtml);
+
+  // Containerize content
+  contentHtml = containerizeContent(contentHtml);
+
   return {
     ...(matterResult.data as PostMetaData),
-    contentHtml,
+    contentHtml: contentHtml,
   };
 }
 
 
+
+
 export async function getPostDataHeader(id: string): Promise<TOCProps> {
-  const fullPath = path.join(postsDirectory, `${id}.mdx`);
+  const fullPath = path.join(postsDirectory, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   // Extract metadata and content

@@ -264,3 +264,8 @@ blockquote {
   cursor: help;
 }
 
+
+.blog-link {
+  color: var(--accent-color);
+  text-decoration: underline;
+}

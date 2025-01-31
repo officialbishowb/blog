@@ -95,20 +95,20 @@ export default async function Post(props: { params: PostIdParams }) {
 
           {/* Tags */}
             <div className="flex flex-wrap mt-4">
-                {post.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tags/${tag}`}
-                  className="bg-gray text-light_gray px-2 py-1 rounded-lg mr-2 mb-2"
-                >
-                  <span
-                  key={tag}
-                  className="text-foreground px-2 py-1 rounded-full"
-                >
-                  {tag}
-                </span>
-                </Link>
-                ))}
+              {post.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/tags/${tag}`}
+                className="bg-gray text-light_gray px-2 py-1 rounded-lg mr-2 mb-2 hover:bg-light_gray "
+              >
+                <span
+                key={tag}
+                className="text-foreground px-2 py-1 rounded-full"
+              >
+                {tag}
+              </span>
+              </Link>
+              ))}
             </div>
 
 
