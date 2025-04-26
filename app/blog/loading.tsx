@@ -1,9 +1,12 @@
 import { LoadingBar } from "@/components/loading-bar"
+import { Suspense } from "react"
 
 export default function BlogLoading() {
   return (
     <div className="min-h-screen pt-24">
-      <LoadingBar />
+      <Suspense fallback={null}>
+        <LoadingBar />
+      </Suspense>
       <div className="container pb-16">
         <div className="animate-pulse">
           <div className="h-12 w-48 bg-muted rounded-md mb-6"></div>
