@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { CategoryBadge } from "@/components/ui/category-badge"
 
-
-export default async function TagPageClient({ posts, params }: { posts: Post[]; params: { tag: string } }) {
+export default async function CategoryPageClient({ posts, params }: { posts: Post[]; params: { category: string } }) {
   const filteredPosts = posts.filter((post) =>
-    post.tags.some((tag) => tag.toLowerCase() === params.tag.toLowerCase())
+    post.category.main.toLowerCase() === params.category.toLowerCase()
   )
 
   return (
@@ -20,10 +20,10 @@ export default async function TagPageClient({ posts, params }: { posts: Post[]; 
         </Link>
 
         <h1 className="text-4xl md:text-5xl mb-6">
-          Posts tagged with <span className="text-primary">&quot;{params.tag}&quot;</span>
+          Posts with category <span className="text-primary">&quot;{params.category}&quot;</span>
         </h1>
         <p className="text-muted-foreground text-lg mb-12 max-w-2xl">
-          Showing {filteredPosts.length} post{filteredPosts.length !== 1 ? "s" : ""} with this tag
+          Showing {filteredPosts.length} post{filteredPosts.length !== 1 ? "s" : ""} with this category
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -48,21 +48,7 @@ export default async function TagPageClient({ posts, params }: { posts: Post[]; 
                 </CardContent>
                 <CardFooter>
                   <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <Link href={`/blog/tags/${tag}`} key={tag}>
-                      <Badge
-                        key={tag}
-                        className={cn(
-                          "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors",
-                          tag.toLowerCase() === params.tag.toLowerCase()
-                            ? "bg-card text-accent-color"
-                            : "bg-accent-color/10 hover:bg-accent-color/20 text-gray"
-                        )}
-                      >
-                        {tag}
-                      </Badge>
-                      </Link>
-                    ))}
+                    <CategoryBadge category={post.category} />
                   </div>
                 </CardFooter>
               </Card>

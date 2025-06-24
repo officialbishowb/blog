@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { getAllPosts } from "@/lib/blog-utils"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { CategoryBadge } from "@/components/ui/category-badge"
 import { Suspense } from "react"
 import Loading from "./loading"
 
@@ -40,11 +40,7 @@ export default async function Home() {
                   </CardContent>
                   <CardFooter>
                     <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <Link href={`/blog/tags/${tag}`} key={tag}>
-                        <Badge className="bg-accent-color/10 hover:bg-accent-color/20 text-primary">{tag}</Badge>
-                      </Link>
-                      ))}
+                      <CategoryBadge category={post.category} />
                     </div>
                   </CardFooter>
                 </Card>

@@ -1,7 +1,7 @@
 ---
 excerpt: Cybersecurity Tips for Everyday Users.
 date: 2024-06-28T22:00:00.000Z
-tags:[cybersecurity,stay-safe]
+category: Cybersecurity>Security Awareness
 title: Stay Secure - Essential Cybersecurity Tips for Everyday Users
 ---
 # Stay Secure: Essential Cybersecurity Tips for Everyday Users

@@ -200,6 +200,7 @@
 
 .prose h1 {
   font-size: 2.25rem;
+  margin-top: 1em;
 }
 
 .prose h2 {
@@ -270,7 +271,6 @@
   padding-left: 1em;
   margin-left: 0;
   margin-right: 0;
-  font-style: italic;
 }
 
 .prose img {
@@ -278,11 +278,12 @@
   height: auto;
   border-radius: var(--border-radius);
   margin: 1.5em 0;
+  border: 2px solid var(--accent-color);
 }
 
 .prose hr {
   border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 2px solid var(--accent-color);
   margin: 2em 0;
 }
 

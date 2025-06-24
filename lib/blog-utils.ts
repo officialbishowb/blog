@@ -2,6 +2,12 @@ import fs from "fs"
 import path from "path"
 
 // Define the post type
+
+export interface Category {
+  main: string
+  sub?: string
+}
+
 export interface Post {
   slug: string
   title: string
@@ -10,7 +16,7 @@ export interface Post {
   author: string
   body: Record<string, unknown>
   content: string
-  tags: string[]
+  category: Category  
   readingTime: string
 }
 
@@ -19,7 +25,7 @@ interface FrontmatterData {
   date?: string
   description?: string
   author?: string
-  tags?: string[]
+  category?: Category
   excerpt?: string
   body?: Record<string, unknown>
   [key: string]: unknown
@@ -70,14 +76,31 @@ function parseFrontmatter(content: string) {
     const [key, ...valueArr] = line.split(":")
     if (key && valueArr.length) {
       let value = valueArr.join(":").trim()
-
-      // Handle arrays (like tags)
-      if (value.startsWith("[") && value.endsWith("]")) {
-        value = value.slice(1, -1)
-        frontmatterData[key.trim()] = value
-          .split(",")
-          .map((item) => item.trim())
-          .filter(Boolean)
+      
+      // Handle category parsing
+      if (key.trim() === "category") {
+        try {
+          // Try to parse as JSON first
+          const categoryData = JSON.parse(value)
+          if (typeof categoryData === "object" && categoryData !== null) {
+            frontmatterData[key.trim()] = {
+              main: categoryData.main || "Uncategorized",
+              sub: categoryData.sub || undefined
+            }
+          } else {
+            // If it's just a string, treat it as main category
+            frontmatterData[key.trim()] = {
+              main: value,
+              sub: undefined
+            }
+          }
+        } catch {
+          // If JSON parsing fails, treat as string
+          frontmatterData[key.trim()] = {
+            main: value,
+            sub: undefined
+          }
+        }
       } else {
         frontmatterData[key.trim()] = value
       }
@@ -112,6 +135,12 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     const fileContents = fs.readFileSync(fullPath, "utf8")
     const { frontmatter, content } = parseFrontmatter(fileContents)
 
+    // Handle category parsing with proper type checking
+    const category: Category = frontmatter.category as Category
+    const [mainCategory, subCategory] = (category.main || "Uncategorized").split(">")
+    category.main = mainCategory.toLowerCase().replace(/\s+/g, "-")
+    category.sub = subCategory ? subCategory.toLowerCase().replace(/\s+/g, "-") : undefined
+
     return {
       slug,
       title: frontmatter.title || "Untitled",
@@ -120,7 +149,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       author: frontmatter.author || "",
       body: frontmatter.body || {},
       content,
-      tags: frontmatter.tags || [],
+      category: category,
       readingTime: calculateReadingTime(content),
     }
   } catch (error: unknown) {

@@ -4,10 +4,12 @@ import { Badge } from "@/components/ui/badge"
 import { TableOfContents } from "@/components/toc"
 import { Mdx } from "@/components/mdx-components"
 import Link from "next/link"
-import { ArrowLeft, Calendar, Tag, Clock } from "lucide-react"
+import { ArrowLeft, Calendar, Tag, Clock, ArrowUp } from "lucide-react"
 import { Suspense } from "react"
 import PostLoading from "./loading"
 import { LoadingBar } from "@/components/loading-bar"
+import { GoToTopButton } from "@/components/go-to-top-button"
+import { CategoryBadge } from "@/components/ui/category-badge"
 
 export async function generateStaticParams() {
   const posts = await getAllPosts()
@@ -89,11 +91,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   <div className="flex items-center">
                     <Tag className="mr-2 h-4 w-4" />
                     <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <Link href={`/blog/tags/${tag}`} key={tag}>
-                          <Badge className="bg-accent-color/10 hover:bg-accent-color/20 text-primary">{tag}</Badge>
-                        </Link>
-                      ))}
+                      <CategoryBadge category={post.category} />
                     </div>
                   </div>
 
@@ -116,6 +114,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </div>
           </div>
         </div>
+        
+        {/* Go to Top Button */}
+        <GoToTopButton />
       </Suspense>
     </>
   )
