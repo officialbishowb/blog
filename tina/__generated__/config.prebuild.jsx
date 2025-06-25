@@ -52,11 +52,13 @@ var config_default = defineConfig({
             required: true
           },
           {
-            type: "rich-text",
+            type: "string",
             name: "body",
             label: "Body",
             isBody: true,
-            required: true
+            ui: {
+              component: "textarea"
+            }
           }
         ]
       }

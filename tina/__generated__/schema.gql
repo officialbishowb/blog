@@ -92,7 +92,7 @@ type Post implements Node & Document {
   excerpt: String
   date: String!
   category: String!
-  body: JSON!
+  body: String
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -113,18 +113,12 @@ input DatetimeFilter {
   in: [String]
 }
 
-input RichTextFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-}
-
 input PostFilter {
   title: StringFilter
   excerpt: StringFilter
   date: DatetimeFilter
   category: StringFilter
-  body: RichTextFilter
+  body: StringFilter
 }
 
 type PostConnectionEdges {
@@ -162,7 +156,7 @@ input PostMutation {
   excerpt: String
   date: String
   category: String
-  body: JSON
+  body: String
 }
 
 schema {
