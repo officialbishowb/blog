@@ -1,8 +1,8 @@
 ---
-excerpt: Habits are the foundation of our daily lives. They shape how we think, feel, and act. Understanding how habits form and how to break bad ones is essential for personal growth and success.
+excerpt: "Habits are the foundation of our daily lives. They shape how we think, feel, and act. Understanding how habits form and how to break bad ones is essential for personal growth and success.
 date: 2025-06-23
-category: Personal Development>Self-Improvement
-title: The Power of Habits
+category: "Personal Development>Self-Improvement"
+title: "The Power of Habits"
 ---
 # Habits
 
@@ -27,7 +27,7 @@ Yes - several.
 
 The **habit loop**, or **feedback loop**, is the foundation of habit formation. It explains how habits work. According to _Atomic Habits_ by James Clear, there are four key steps:
 
-![Habit Loop](/assets/images/post/habit_loop.png)
+![Habit Loop](/content/posts/images/habit_loop.png)
 
 1. **Cue** – Triggers the brain to start a behavior by signaling a reward.
 2. **Craving** – The motivation or desire to act.

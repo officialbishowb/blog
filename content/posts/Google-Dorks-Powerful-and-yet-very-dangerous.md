@@ -1,8 +1,8 @@
 ---
-excerpt: This blog explores the use of Google Dorks, advanced search techniques that enable highly specific information retrieval, and compares these capabilities across different search engines.
+excerpt: "This blog explores the use of Google Dorks, advanced search techniques that enable highly specific information retrieval, and compares these capabilities across different search engines."
 date: 2024-05-12T22:00:00.000Z
-category: Cybersecurity>Osint
-title: Google Dorks: Powerful and yet very dangerous
+category: "Cybersecurity>Osint"
+title: "Google Dorks: Powerful and yet very dangerous"
 ---
 We live in a world where the internet has become a basic necessity. Social media platforms such as Instagram, TikTok, or Facebook are scrolled by millions of people daily. Some use them purely for entertainment purposes, while others use them to obtain "trustworthy" information. One thing that is still in use and will probably remain so for a long time is search engines. Search engines such as Google, Bing, Yahoo, or DuckDuckGo are still relevant today and are being used in various ways. These search engines try their best to index website content by using so-called crawlers that search for new or updated pages. The most commonly used search engine, with nearly 85% of the search market share, is Google [1]. While most people use Google for "normal" queries, it is also possible to perform advanced searches using certain syntaxes that lead to more specific search results. Let us dive into the world of advanced search.
 

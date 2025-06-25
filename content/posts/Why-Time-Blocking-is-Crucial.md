@@ -1,8 +1,8 @@
 ---
-excerpt: Time blocking is a method where you divide your day into dedicated time segments for specific tasks. Instead of working from a to-do list, you assign each task to a particular time slot in your calendar. This approach helps improve focus, productivity, and time awareness.
+excerpt: "Time blocking is a method where you divide your day into dedicated time segments for specific tasks. Instead of working from a to-do list, you assign each task to a particular time slot in your calendar. This approach helps improve focus, productivity, and time awareness."
 date: 2025-01-07
-category: Productivity>Time Management
-title: Why Time Blocking is Crucial
+category: "Productivity>Time Management"
+title: "Why Time Blocking is Crucial"
 ---
 # Why Time Blocking is Crucial
 
@@ -13,7 +13,7 @@ Well, when is the last time you had a look at your Calendar, whether in an analo
 Time Blocking is a time management method, that involves scheduling or breaking something into blocks of time. Each block represents a specific task / to-do you have to do.
 Like this:
 
-![Time Blocking](/assets/images/post/Time-Blocking.png)
+![Time Blocking](/content/posts/images/Time-Blocking.png)
 
 As you can see, instead of spreading tasks throughout the day, like in the left, you block a time period for a specific task, do it and then move on to the next task. This way you can put all your focus to the current task instead of all, as multitasking is really hard to achieve.
 
