@@ -1,14 +1,13 @@
 import Link from "next/link"
 import { Post } from "@/lib/blog-utils"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { CategoryBadge } from "@/components/ui/category-badge"
 
 export default async function CategoryPageClient({ posts, params }: { posts: Post[]; params: { category: string } }) {
+  const { category } = await params
   const filteredPosts = posts.filter((post) =>
-    post.category.main.toLowerCase() === params.category.toLowerCase()
+    post.category.main.toLowerCase() === category.toLowerCase()
   )
 
   return (

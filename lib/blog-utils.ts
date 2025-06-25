@@ -77,6 +77,9 @@ function parseFrontmatter(content: string) {
     if (key && valueArr.length) {
       let value = valueArr.join(":").trim()
       
+      // Remove quotes from the value
+      value = value.replace(/^["']|["']$/g, "")
+      
       // Handle category parsing
       if (key.trim() === "category") {
         try {
