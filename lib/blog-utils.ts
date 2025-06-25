@@ -145,32 +145,14 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
     const readingTime = calculateReadingTime(content);
 
-    let body = frontmatter.body;
-    if (!body || Object.keys(body).length === 0) {
-      body = {
-        type: "root",
-        children: [
-          {
-            type: "p",
-            children: [
-              {
-                type: "text",
-                text: convertToTinaMarkdown(content),
-              },
-            ],
-          },
-        ],
-      };
-    }
-
     return {
       slug,
       title: frontmatter.title || "Untitled",
       date: frontmatter.date || new Date().toISOString(),
       description: frontmatter.excerpt || "",
       author: frontmatter.author || "",
-      body,
-      content: "", // deprecated, can be removed
+      body: frontmatter.body || {},
+      content: content,
       category,
       readingTime,
     };
@@ -193,7 +175,3 @@ export async function getAllPosts(): Promise<Post[]> {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
-
-export function convertToTinaMarkdown(content: string) {
-  return content.replace(/<p>/g, "").replace(/<\/p>/g, "")
-}
