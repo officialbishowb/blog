@@ -54,6 +54,9 @@ export default defineConfig({
             name: "body",
             label: "Body",
             isBody: true,
+            ui: {
+              component: "textarea",
+            },
             required: true,
           },
         ],
