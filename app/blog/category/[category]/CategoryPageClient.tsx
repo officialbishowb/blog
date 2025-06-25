@@ -19,7 +19,7 @@ export default async function CategoryPageClient({ posts, params }: { posts: Pos
         </Link>
 
         <h1 className="text-4xl md:text-5xl mb-6">
-          Posts with category <span className="text-primary">&quot;{params.category}&quot;</span>
+          Posts with category <span className="text-primary">&quot;{category}&quot;</span>
         </h1>
         <p className="text-muted-foreground text-lg mb-12 max-w-2xl">
           Showing {filteredPosts.length} post{filteredPosts.length !== 1 ? "s" : ""} with this category

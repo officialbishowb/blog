@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils"
 import { CategoryBadge } from "@/components/ui/category-badge"
 
 export default async function CategoryPageClient({ posts, params }: { posts: Post[]; params: { category: string; subCategory: string } }) {
+  const { category, subCategory } = await params
   const filteredPosts = posts.filter((post) =>
-    post.category.main.toLowerCase() === params.category.toLowerCase() &&
-    post.category.sub?.toLowerCase() === params.subCategory.toLowerCase()
+    post.category.main.toLowerCase() === category.toLowerCase() &&
+    post.category.sub?.toLowerCase() === subCategory.toLowerCase()
   )
 
   return (
