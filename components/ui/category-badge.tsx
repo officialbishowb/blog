@@ -16,23 +16,28 @@ export function CategoryBadge({ category }: CategoryBadgeProps) {
       .join(' ')
   }
 
+  const truncateText = (text: string, maxLength: number = 15) => {
+    if (text.length <= maxLength) return text
+    return text.substring(0, maxLength) + '...'
+  }
+
   return (
     <div className="flex flex-wrap gap-2">
       <div className="flex items-center gap-1">
         <Link
           href={`/blog/category/${category.main}`}
-          className="bg-accent-color/10 hover:bg-accent-color/20 text-primary cursor-pointer rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors"
+          className="bg-accent-color/10 hover:bg-accent-color/20 text-primary cursor-pointer rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors whitespace-nowrap"
         >
-          {formatCategoryName(category.main)}
+          {truncateText(formatCategoryName(category.main))}
         </Link>
         {category.sub && (
           <>
             <ArrowRightFromLine className="w-4 h-4" />
             <Link
               href={`/blog/category/${category.main}/${category.sub}`}
-              className="bg-accent-color/10 hover:bg-accent-color/20 text-primary cursor-pointer rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors"
+              className="bg-accent-color/10 hover:bg-accent-color/20 text-primary cursor-pointer rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors whitespace-nowrap"
             >
-              {formatCategoryName(category.sub)}
+              {truncateText(formatCategoryName(category.sub))}
             </Link>
           </>
         )}
