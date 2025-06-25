@@ -128,21 +128,40 @@ function calculateReadingTime(content: string): string {
 // Get a single post by slug
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
-    // Fall back to file system
-    const fullPath = path.join(postsDirectory, `${slug}.md`)
+    const fullPath = path.join(postsDirectory, `${slug}.md`);
 
     if (!fs.existsSync(fullPath)) {
-      return null
+      return null;
     }
 
-    const fileContents = fs.readFileSync(fullPath, "utf8")
-    const { frontmatter, content } = parseFrontmatter(fileContents)
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { frontmatter, content } = parseFrontmatter(fileContents);
 
-    // Handle category parsing with proper type checking
-    const category: Category = frontmatter.category as Category
-    const [mainCategory, subCategory] = (category.main || "Uncategorized").split(">")
-    category.main = mainCategory.toLowerCase().replace(/\s+/g, "-")
-    category.sub = subCategory ? subCategory.toLowerCase().replace(/\s+/g, "-") : undefined
+    // Category handling
+    const category: Category = frontmatter.category as Category;
+    const [mainCategory, subCategory] = (category.main || "Uncategorized").split(">");
+    category.main = mainCategory.toLowerCase().replace(/\s+/g, "-");
+    category.sub = subCategory ? subCategory.toLowerCase().replace(/\s+/g, "-") : undefined;
+
+    const readingTime = calculateReadingTime(content);
+
+    let body = frontmatter.body;
+    if (!body || Object.keys(body).length === 0) {
+      body = {
+        type: "root",
+        children: [
+          {
+            type: "p",
+            children: [
+              {
+                type: "text",
+                text: convertToTinaMarkdown(content),
+              },
+            ],
+          },
+        ],
+      };
+    }
 
     return {
       slug,
@@ -150,14 +169,14 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       date: frontmatter.date || new Date().toISOString(),
       description: frontmatter.excerpt || "",
       author: frontmatter.author || "",
-      body: frontmatter.body || {},
-      content,
-      category: category,
-      readingTime: calculateReadingTime(content),
-    }
+      body,
+      content: "", // deprecated, can be removed
+      category,
+      readingTime,
+    };
   } catch (error: unknown) {
-    console.error("Error getting post:", error)
-    return null
+    console.error("Error getting post:", error);
+    return null;
   }
 }
 
@@ -172,4 +191,9 @@ export async function getAllPosts(): Promise<Post[]> {
   return posts
     .filter((post): post is Post => post !== null && post.content.trim().length > 0)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+}
+
+
+export function convertToTinaMarkdown(content: string) {
+  return content.replace(/<p>/g, "").replace(/<\/p>/g, "")
 }

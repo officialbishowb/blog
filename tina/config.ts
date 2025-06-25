@@ -50,13 +50,11 @@ export default defineConfig({
             required: true,
           },
           {
-            type: "string",
+            type: "rich-text",
             name: "body",
             label: "Body",
             isBody: true,
-            ui: {
-              component: "textarea",
-            },
+            required: true,
           },
         ],
       },
