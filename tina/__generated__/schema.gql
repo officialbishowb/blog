@@ -90,9 +90,9 @@ union DocumentNode = Post | Folder
 type Post implements Node & Document {
   title: String!
   excerpt: String
-  date: String
-  category: String
-  body: JSON
+  date: String!
+  category: String!
+  body: JSON!
   id: ID!
   _sys: SystemInfo!
   _values: JSON!

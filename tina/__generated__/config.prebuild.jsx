@@ -41,19 +41,22 @@ var config_default = defineConfig({
           {
             type: "datetime",
             name: "date",
-            label: "Date"
+            label: "Date",
+            required: true
           },
           {
             type: "string",
             name: "category",
             label: "Category",
-            description: "Format: MainCategory>SubCategory (e.g., Cybersecurity>Osint)"
+            description: "Format: MainCategory>SubCategory (e.g., Cybersecurity>Osint)",
+            required: true
           },
           {
             type: "rich-text",
             name: "body",
             label: "Body",
-            isBody: true
+            isBody: true,
+            required: true
           }
         ]
       }
