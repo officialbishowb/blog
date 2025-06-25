@@ -1,5 +1,5 @@
 ---
-excerpt: "Habits are the foundation of our daily lives. They shape how we think, feel, and act. Understanding how habits form and how to break bad ones is essential for personal growth and success.
+excerpt: "Habits are the foundation of our daily lives. They shape how we think, feel, and act. Understanding how habits form and how to break bad ones is essential for personal growth and success."
 date: 2025-06-23
 category: "Personal Development>Self-Improvement"
 title: "The Power of Habits"
