@@ -12,7 +12,7 @@ var config_default = defineConfig({
   },
   media: {
     tina: {
-      mediaRoot: "content/posts/image",
+      mediaRoot: "content/posts/images",
       publicFolder: "public"
     }
   },
