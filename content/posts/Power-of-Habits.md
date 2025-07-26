@@ -27,7 +27,7 @@ Yes - several.
 
 The **habit loop**, or **feedback loop**, is the foundation of habit formation. It explains how habits work. According to _Atomic Habits_ by James Clear, there are four key steps:
 
-![Habit Loop](/content/posts/images/habit_loop.png)
+![Habit Loop](/assets/posts/images/habit_loop.png)
 
 1. **Cue** – Triggers the brain to start a behavior by signaling a reward.
 2. **Craving** – The motivation or desire to act.

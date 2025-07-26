@@ -13,7 +13,7 @@ Well, when is the last time you had a look at your Calendar, whether in an analo
 Time Blocking is a time management method, that involves scheduling or breaking something into blocks of time. Each block represents a specific task / to-do you have to do.
 Like this:
 
-![Time Blocking](/content/posts/images/Time-Blocking.png)
+![Time Blocking](/assets/posts/images/Time-Blocking.png)
 
 As you can see, instead of spreading tasks throughout the day, like in the left, you block a time period for a specific task, do it and then move on to the next task. This way you can put all your focus to the current task instead of all, as multitasking is really hard to achieve.
 
