@@ -39,7 +39,7 @@ The Pomodoro Technique is a time blocking method which where you set 25 minutes 
 
 #### ⮞ AI time blocking ⮜
 
-Nowadays AI is everywhere even when it comes to time blocking. Of course planning tasks for each day is tough - it requires some extra time to do this. Therefore there are tools like Reclaim.ai (which I personally use) or Motion, which can help you plan the task you enter **automatically**. You just enter the task, the time it will probably take and when you want to finish it then the AI takes over takes your current events in your calendar into account and then plan the given tasks automatically. This way you save a lot of time which can be used for other things.
+Nowadays AI is everywhere even when it comes to time blocking. Of course planning tasks for each day is tough - it requires some extra time to do this. Therefore there are tools like [reclaim.ai](https://reclaim.ai/r/s/DREHV) (which I personally use) or Motion, which can help you plan the task you enter **automatically**. You just enter the task, the time it will probably take and when you want to finish it then the AI takes over takes your current events in your calendar into account and then plan the given tasks automatically. This way you save a lot of time which can be used for other things.
 
 ## Why you should do it
 
@@ -70,7 +70,7 @@ After that priorate the tasks. What do you need really get done? Which task can 
 
 Now that you all planned it out it is time put the tasks in you calendar. Have a look at it and put the task there where you have enough time to do it.
 
-At last, if you have don't have enough time to put every task in you calendar, you can use AI like I previously mentioned [reclaim.ai](https://reclaim.ai)  (which I use) or Usemotion  (which cost a little too much for me) to plan the task automatically.
+At last, if you have don't have enough time to put every task in you calendar, you can use AI like I previously mentioned [reclaim.ai](https://reclaim.ai/r/s/DREHV)  (which I use) or Usemotion  (which cost a little too much for me) to plan the task automatically.
 
 ## Helpful resources
 
