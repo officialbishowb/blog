@@ -10,6 +10,7 @@ import PostLoading from "./loading"
 import { LoadingBar } from "@/components/loading-bar"
 import { GoToTopButton } from "@/components/go-to-top-button"
 import { CategoryBadge } from "@/components/ui/category-badge"
+import MarkRead from '@/components/mark-read'
 
 export async function generateStaticParams() {
   const posts = await getAllPosts()
@@ -52,6 +53,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
   return (
     <>
+      {/* Mark this post as read on client mount */}
+      <MarkRead slug={slug} />
       <LoadingBar />
       <Suspense fallback={<PostLoading />}>
         <div className="min-h-screen pt-20">

@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "next start",
+    "dev": "next dev",
+    "build": "next build",
     "lint": "next lint",
     "tina:build": "tinacms build && next build",
     "tina:dev": "tinacms dev -c \"next dev\"",
@@ -70,6 +72,7 @@
   },
   "devDependencies": {
     "@types/node": "^22",
+    "@types/prismjs": "^1.26.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",

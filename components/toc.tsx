@@ -20,7 +20,8 @@ export function TableOfContents({ source }: TableOfContentsProps) {
   // Extract headings from markdown content
   useEffect(() => {
     const extractHeadings = () => {
-      const regex = /^(#{1,3})\s+(.+)$/gm
+      // capture headings from # through ###### (h1 - h6)
+      const regex = /^(#{1,6})\s+(.+)$/gm
       const matches = Array.from(source.matchAll(regex))
 
       const items = matches.map((match) => {
@@ -79,29 +80,29 @@ export function TableOfContents({ source }: TableOfContentsProps) {
   return (
     <nav className="toc">
       <ul className="space-y-2 text-sm">
-        {headings.map((heading) => (
-          <li
-            key={heading.id}
-            className={cn("transition-colors", heading.level === 1 ? "" : "ml-4", heading.level === 3 ? "ml-8" : "")}
-          >
-            <a
-              href={`#${heading.id}`}
-              className={cn(
-                "block py-1 hover:text-accent-color transition-colors",
-                activeId === heading.id ? "text-accent-color font-medium" : "text-light-gray",
-              )}
-              onClick={(e) => {
-                e.preventDefault()
-                document.getElementById(heading.id)?.scrollIntoView({
-                  behavior: "smooth",
-                })
-                setActiveId(heading.id)
-              }}
-            >
-              {heading.text}
-            </a>
-          </li>
-        ))}
+        {headings.map((heading) => {
+          const indentClasses = ['', 'ml-4', 'ml-8', 'ml-12', 'ml-16', 'ml-20']
+          const indent = indentClasses[Math.max(0, Math.min(5, heading.level - 1))]
+
+          return (
+            <li key={heading.id} className={cn('transition-colors', indent)}>
+              <a
+                href={`#${heading.id}`}
+                className={cn(
+                  'block py-1 hover:text-accent-color transition-colors',
+                  activeId === heading.id ? 'text-accent-color font-medium' : 'text-light-gray'
+                )}
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById(heading.id)?.scrollIntoView({ behavior: 'smooth' })
+                  setActiveId(heading.id)
+                }}
+              >
+                {heading.text}
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </nav>
   )

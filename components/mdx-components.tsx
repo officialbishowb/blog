@@ -5,6 +5,9 @@ import Prism from "prismjs"
 import { PrismTheme } from "./prism-theme"
 import { FAQToggle } from "./ui/faq-toggle"
 import { createRoot } from "react-dom/client"
+import { renderToStaticMarkup } from 'react-dom/server'
+import { Info, Lightbulb, AlertTriangle, FileText } from 'lucide-react'
+import { renderTablesAsHtml } from './md-table'
 
 interface MdxProps {
   source: string
@@ -13,6 +16,9 @@ interface MdxProps {
 export function Mdx({ source }: MdxProps) {
   const [content, setContent] = useState<string>("")
   const [faqElements, setFaqElements] = useState<React.ReactNode[] | null>(null)
+  // Store callout HTML blocks temporarily so they don't get mangled by later regexes
+  const calloutStore = new Map<string, string>()
+  let calloutCounter = 0
 
   // Process code blocks with language detection for syntax highlighting
   const processCodeBlocks = (content: string) => {
@@ -63,6 +69,13 @@ export function Mdx({ source }: MdxProps) {
 
   // Process regular markdown content
   const processMarkdown = (content: string) => {
+  // First, convert pipe-based markdown tables into HTML so they aren't mangled by later regexes
+  content = renderTablesAsHtml(content)
+
+  // Normalize explicit HTML break tags to a canonical <br/> and convert Markdown "two spaces + newline" line breaks to <br/>
+  content = content.replace(/<br\s*\/?>/gi, '<br/>')
+  content = content.replace(/ {2}\n/g, '<br/>\n')
+
     // Handle blockquotes: group all consecutive blockquote lines into a single blockquote
     // This handles cases where blockquotes might be separated by empty lines
     const lines = content.split('\n');
@@ -100,7 +113,7 @@ export function Mdx({ source }: MdxProps) {
       processedLines.push(processedBlockquote);
     }
     
-    content = processedLines.join('\n');
+  content = processedLines.join('\n');
     
     // Horizontal rules (---, ***, ___)
     content = content.replace(/^(\s*)([-*_]){3,}\s*$/gm, '<hr class="my-6 border-t border-gray-300 dark:border-gray-700" />');
@@ -108,7 +121,7 @@ export function Mdx({ source }: MdxProps) {
     content = content.replace(/^(?:    |\t)(.+)$/gm, (match, code) => {
       return `<pre class="language-plaintext"><code class="language-plaintext">${escapeHtml(code)}</code></pre>`;
     });
-    return content
+    content = content
       .replace(/^(#{1,6})\s+(.+)$/gm, (_, hashes, title) => {
         const level = hashes.length
         const id = title
@@ -164,6 +177,10 @@ export function Mdx({ source }: MdxProps) {
       .replace(/(?<!`)`([^`]+)`(?!`)/g, '<code class="bg-[#1a1a1a] dark:bg-[#2a2a2a] px-2 py-1 rounded-md text-sm font-mono border border-[#e0e0e0] dark:border-[#3a3a3a] text-accent-color">$1</code>')
       // Only wrap as paragraph if not already a block element
       .replace(/^(?!<h|<pre|<ul|<ol|<li|<blockquote|<hr)(.+)$/gm, '<p class="text-gray my-4">$1</p>')
+
+    // Inject callouts stored earlier so they are not mangled by regexes
+    content = injectCallouts(content)
+    return content
   }
 
   // Helper function to process blockquote content
@@ -183,13 +200,79 @@ export function Mdx({ source }: MdxProps) {
       return line;
     });
     
-    // Join lines with proper paragraph tags
-    const blockquoteContent = processedLines
-      .filter(line => line.trim())
-      .map(line => `<p class="mb-2 last:mb-0">${line}</p>`)
-      .join('');
-    
-    return `<blockquote class="border-l-4 border-accent-color pl-4 my-4 text-gray-400 bg-muted/30">${blockquoteContent}</blockquote>`;
+    // Detect callout pattern on the first line: [!type] Optional Title
+    const firstRaw = lines[0] || ''
+    const calloutMatch = firstRaw.match(/^\s*\[!([a-zA-Z0-9_-]+)\]\s*(.*)$/)
+
+    if (calloutMatch) {
+      const type = calloutMatch[1].toLowerCase()
+      const titleText = calloutMatch[2].trim()
+
+      // Remaining content lines (skip the first line which contained the callout marker)
+      const bodyLines = processedLines.slice(1).filter(line => line.trim())
+      const bodyHtml = bodyLines.map(line => `<p class="mb-2 last:mb-0">${line}</p>`).join('')
+
+      // Use the project's design tokens for callouts regardless of type.
+      // Keep icon shape/type but keep container/title/body consistent with project design.
+      const calloutStyles: Record<string, { Icon: any; container: string; title: string; body: string }> = {
+        note: { Icon: Info, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
+        tip: { Icon: Lightbulb, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
+        warning: { Icon: AlertTriangle, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
+        abstract: { Icon: FileText, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' }
+      }
+
+      const style = calloutStyles[type] || calloutStyles['note']
+
+      // render lucide icon to static SVG markup with project accent color for injection
+      const iconSvg = renderToStaticMarkup(style.Icon ? <style.Icon className="w-5 h-5 text-accent-color" /> : <Info className="w-5 h-5 text-accent-color" />)
+
+      // Store callout HTML in the calloutStore and return a placeholder token.
+      const token = `@@CALLOUT_${++calloutCounter}@@`
+      const html = `
+        <blockquote class="${style.container}">
+          <div class="flex items-center gap-3">
+            <div class="flex-shrink-0">${iconSvg}</div>
+            <div class="flex-1">
+              ${titleText ? `<div class="${style.title}">${titleText}</div>` : ''}
+              <div class="${style.body}">${bodyHtml}</div>
+            </div>
+          </div>
+        </blockquote>
+      `
+      calloutStore.set(token, html)
+      return token
+    }
+
+    // Join lines into paragraphs:
+    // - consecutive non-empty lines become a single paragraph joined with <br/> (no vertical spacing)
+    // - an empty line inside the blockquote creates a paragraph break (adds vertical spacing)
+    const paragraphs: string[] = []
+    let currentParaLines: string[] = []
+
+    for (const ln of processedLines) {
+      if (ln.trim() === '') {
+        if (currentParaLines.length) {
+          paragraphs.push(currentParaLines.join('<br/>'))
+          currentParaLines = []
+        }
+        // if multiple consecutive blank lines, treat them as a single paragraph break
+      } else {
+        currentParaLines.push(ln)
+      }
+    }
+    if (currentParaLines.length) paragraphs.push(currentParaLines.join('<br/>'))
+
+    const blockquoteContent = paragraphs.map(p => `<p class="mb-2 last:mb-0">${p}</p>`).join('')
+
+    return `<blockquote class="border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4 text-gray dark:text-gray-300">${blockquoteContent}</blockquote>`;
+  }
+
+  // Replace any callout placeholders with their stored HTML. Called at the end of processMarkdown.
+  function injectCallouts(content: string) {
+    for (const [token, html] of calloutStore.entries()) {
+      content = content.split(token).join(html)
+    }
+    return content
   }
 
   useEffect(() => {

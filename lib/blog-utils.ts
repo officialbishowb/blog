@@ -18,6 +18,7 @@ export interface Post {
   content: string
   category: Category  
   readingTime: string
+  modifiedAt?: string
 }
 
 interface FrontmatterData {
@@ -135,6 +136,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     }
 
     const fileContents = fs.readFileSync(fullPath, "utf8");
+  const stats = fs.statSync(fullPath)
     const { frontmatter, content } = parseFrontmatter(fileContents);
 
     // Category handling
@@ -144,6 +146,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     category.sub = subCategory ? subCategory.toLowerCase().replace(/\s+/g, "-") : undefined;
 
     const readingTime = calculateReadingTime(content);
+  const modifiedAt = stats.mtime.toISOString()
 
     return {
       slug,
@@ -155,6 +158,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       content: content,
       category,
       readingTime,
+      modifiedAt,
     };
   } catch (error: unknown) {
     console.error("Error getting post:", error);
