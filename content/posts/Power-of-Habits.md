@@ -1,8 +1,12 @@
 ---
-excerpt: "Habits are the foundation of our daily lives. They shape how we think, feel, and act. Understanding how habits form and how to break bad ones is essential for personal growth and success."
+excerpt: "Learn how habits form and how to break bad ones. Discover the habit loop, implementation intentions, habit stacking, and proven methods to build good habits and eliminate bad ones."
 date: 2025-06-23
 category: "Personal Development>Self-Improvement"
 title: "The Power of Habits"
+author: "Bishow"
+keywords: "habits, habit formation, breaking bad habits, habit loop, habit stacking, implementation intentions, personal development, self-improvement"
+image: "/assets/posts/images/habit_loop.png"
+tags: "habits, productivity, self-improvement, personal development, habit tracking"
 ---
 # Habits
 

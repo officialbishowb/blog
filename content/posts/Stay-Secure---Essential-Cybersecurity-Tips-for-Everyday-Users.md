@@ -1,8 +1,12 @@
 ---
-excerpt: "Cybersecurity Tips for Everyday Users."
+excerpt: "Essential cybersecurity tips for everyday users. Learn about strong passwords, password managers, HTTPS, MFA, public Wi-Fi risks, and how to protect yourself from phishing and malware attacks."
 date: 2024-06-28T22:00:00.000Z
 category: "Cybersecurity>Security Awareness"
 title: "Stay Secure - Essential Cybersecurity Tips for Everyday Users"
+author: "Bishow"
+keywords: "cybersecurity, online security, password security, MFA, two-factor authentication, phishing protection, malware prevention, internet safety"
+image: "/assets/images/blog_logo_light.png"
+tags: "cybersecurity, security, online safety, password management, internet security"
 ---
 # Stay Secure: Essential Cybersecurity Tips for Everyday Users
 

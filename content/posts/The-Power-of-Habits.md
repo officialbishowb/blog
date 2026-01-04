@@ -1,8 +1,12 @@
 ---
-excerpt: The Power of Habits
+excerpt: "Discover how habits work and how to change them using the habit loop. Learn about cues, routines, rewards, keystone habits, and willpower from The Power of Habits by Charles Duhigg."
 date: 2024-11-18T00:00:00.000Z
-category: Books>The Power of Habits
-title: The Power of Habits
+category: "Books>The Power of Habits"
+title: "The Power of Habits"
+author: "Bishow"
+keywords: "power of habits, charles duhigg, habit loop, keystone habits, willpower, behavior change, habit formation, personal development"
+image: "/assets/posts/images/habit_loop_charles.png"
+tags: "book review, habits, personal development, behavior change, productivity"
 ---
 ## 📖 Book Review – November 2024
 

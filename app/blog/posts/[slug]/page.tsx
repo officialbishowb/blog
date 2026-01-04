@@ -11,6 +11,7 @@ import { LoadingBar } from "@/components/loading-bar"
 import { GoToTopButton } from "@/components/go-to-top-button"
 import { CategoryBadge } from "@/components/ui/category-badge"
 import MarkRead from '@/components/mark-read'
+import Script from "next/script"
 
 export async function generateStaticParams() {
   const posts = await getAllPosts()
@@ -30,15 +31,43 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
+  const siteUrl = 'https://blog.officialbishowb.com'
+  const postUrl = `${siteUrl}/blog/posts/${slug}`
+  const ogImage = post.image 
+    ? (post.image.startsWith('http') ? post.image : `${siteUrl}${post.image}`)
+    : `${siteUrl}/assets/images/blog_logo_light.png`
+
   return {
-    title: post.title,
-    description: post.description,
+    title: `${post.title} | Blog`,
+    description: post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
+    keywords: post.keywords || [],
+    authors: post.author ? [{ name: post.author }] : undefined,
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       title: post.title,
-      description: post.description,
+      description: post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
       type: 'article',
       publishedTime: post.date,
-      authors: [post.author],
+      modifiedTime: post.modifiedAt,
+      authors: post.author ? [post.author] : undefined,
+      url: postUrl,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      siteName: 'Blog',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
+      images: [ogImage],
     },
   }
 }
@@ -51,8 +80,50 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     notFound()
   }
 
+  const siteUrl = 'https://blog.officialbishowb.com'
+  const postUrl = `${siteUrl}/blog/posts/${slug}`
+
+  // Generate structured data (JSON-LD)
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
+    "image": post.image 
+      ? (post.image.startsWith('http') ? post.image : `${siteUrl}${post.image}`)
+      : `${siteUrl}/assets/images/blog_logo_light.png`,
+    "datePublished": post.date,
+    "dateModified": post.modifiedAt || post.date,
+    "author": {
+      "@type": "Person",
+      "name": post.author || "Blog Author"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Blog",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/assets/images/blog_logo_light.png`
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": postUrl
+    },
+    "articleSection": post.category.main,
+    "keywords": post.keywords?.join(", ") || post.title,
+    "wordCount": post.content.split(/\s+/).length,
+    "timeRequired": post.readingTime
+  }
+
   return (
     <>
+      {/* Structured Data (JSON-LD) for SEO */}
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       {/* Mark this post as read on client mount */}
       <MarkRead slug={slug} />
       <LoadingBar />

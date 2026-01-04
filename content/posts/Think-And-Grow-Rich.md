@@ -1,8 +1,12 @@
 ---
-excerpt: Think and Grow Rich.
+excerpt: "Discover the principles of wealth accumulation from Think and Grow Rich. Learn about desire, faith, autosuggestion, specialized knowledge, and the master mind concept for achieving success."
 date: 2024-04-30
-category: Books>Think and Grow Rich
-title: Think and Grow Rich
+category: "Books>Think and Grow Rich"
+title: "Think and Grow Rich"
+author: "Bishow"
+keywords: "think and grow rich, napoleon hill, wealth building, success principles, personal development, financial success, master mind, autosuggestion"
+image: "/assets/images/blog_logo_light.png"
+tags: "finance, book review, personal development, success, wealth building"
 ---
 ## 📖 Book Review – April 2024
 

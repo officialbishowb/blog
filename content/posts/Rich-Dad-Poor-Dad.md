@@ -1,8 +1,12 @@
 ---
-excerpt: Financial Literacy is Important
+excerpt: "Learn the key differences between assets and liabilities, why financial literacy matters, and how to make money work for you. Essential insights from Rich Dad Poor Dad by Robert Kiyosaki."
 date: 2024-05-30
-category: Books>Rich Dad Poor Dad
-title: Rich Dad Poor Dad
+category: "Books>Rich Dad Poor Dad"
+title: "Rich Dad Poor Dad"
+author: "Bishow"
+keywords: "rich dad poor dad, financial literacy, assets vs liabilities, robert kiyosaki, personal finance, financial independence, investing, wealth building"
+image: "/assets/posts/images/assets-cashflow-richdadpoordad.png"
+tags: "finance, book review, financial literacy, investing, wealth building, personal finance"
 ---
 ## 📖 Book Review – May 2024
 

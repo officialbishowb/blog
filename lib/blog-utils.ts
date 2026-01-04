@@ -19,6 +19,9 @@ export interface Post {
   category: Category  
   readingTime: string
   modifiedAt?: string
+  keywords?: string[]
+  image?: string
+  tags?: string[]
 }
 
 interface FrontmatterData {
@@ -29,6 +32,9 @@ interface FrontmatterData {
   category?: Category
   excerpt?: string
   body?: Record<string, unknown>
+  keywords?: string
+  image?: string
+  tags?: string
   [key: string]: unknown
 }
 
@@ -105,6 +111,9 @@ function parseFrontmatter(content: string) {
             sub: undefined
           }
         }
+      } else if (key.trim() === "keywords" || key.trim() === "tags") {
+        // Handle comma-separated keywords/tags
+        frontmatterData[key.trim()] = value.split(",").map((item: string) => item.trim()).filter(Boolean)
       } else {
         frontmatterData[key.trim()] = value
       }
@@ -159,6 +168,9 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       category,
       readingTime,
       modifiedAt,
+      keywords: Array.isArray(frontmatter.keywords) ? frontmatter.keywords : (typeof frontmatter.keywords === "string" ? [frontmatter.keywords] : undefined),
+      image: frontmatter.image as string | undefined,
+      tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : (typeof frontmatter.tags === "string" ? [frontmatter.tags] : undefined),
     };
   } catch (error: unknown) {
     console.error("Error getting post:", error);

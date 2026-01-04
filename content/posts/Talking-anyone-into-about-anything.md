@@ -1,8 +1,12 @@
 ---
-excerpt: "Talking anyone into anything."
+excerpt: "Master negotiation skills with techniques from Never Split the Difference. Learn about tactical empathy, mirroring, labeling emotions, and calibrated questions to influence outcomes effectively."
 date: 2024-08-29T00:00:00.000Z
 category: "Books>Never Split The Difference"
 title: "Talking anyone into anything"
+author: "Bishow"
+keywords: "never split the difference, chris voss, negotiation, tactical empathy, mirroring, communication skills, persuasion, business negotiation"
+image: "/assets/images/blog_logo_light.png"
+tags: "book review, negotiation, communication, business skills"
 ---
 ## 📖 Book Review – August 2024
 

@@ -1,8 +1,12 @@
 ---
-excerpt: Everyone wants more Power.
+excerpt: "Explore the 48 Laws of Power by Robert Greene. Learn about manipulation, strategy, and power dynamics through practical laws that can help you understand human behavior and social interactions."
 date: 2024-06-30
-category: Books>The 48 Laws of Power
-title: Everyone wants more Power
+category: "Books>The 48 Laws of Power"
+title: "Everyone wants more Power"
+author: "Bishow"
+keywords: "48 laws of power, robert greene, power dynamics, manipulation, strategy, social psychology, leadership, influence"
+image: "/assets/images/blog_logo_light.png"
+tags: "book review, power, strategy, psychology, leadership"
 ---
 ## 📖 Book Review – June 2024
 

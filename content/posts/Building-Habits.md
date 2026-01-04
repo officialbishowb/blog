@@ -1,8 +1,12 @@
 ---
-excerpt: "Building Habits."
+excerpt: "Discover how to build better habits using the four-step model from Atomic Habits. Learn about cue, craving, response, and reward to transform your daily routines and achieve lasting change."
 date: 2024-07-31T00:00:00.000Z
 category: "Books>Atomic Habits"
 title: "Building Habits"
+author: "Bishow"
+keywords: "atomic habits, habit formation, building habits, james clear, habit loop, cue craving response reward, personal development, self-improvement"
+image: "/assets/posts/images/habit_loop.png"
+tags: "habits, productivity, self-improvement, book review, atomic habits"
 ---
 ## 📖 Book Review - July 2024
 

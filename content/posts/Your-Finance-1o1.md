@@ -1,8 +1,12 @@
 ---
-excerpt: Your Finance 101.
+excerpt: "Essential personal finance basics everyone should know. Learn about budgeting, emergency funds, investing, debt management, and building wealth with practical financial tips and strategies."
 date: 2025-10-07
-category: Education>Finance 101
-title: Your Finance 101
+category: "Education>Finance 101"
+title: "Your Finance 101"
+author: "Bishow"
+keywords: "personal finance, budgeting, emergency fund, investing, ETFs, debt management, financial planning, wealth building"
+image: "/assets/images/blog_logo_light.png"
+tags: "finance, personal finance, budgeting, investing, financial education"
 ---
 ## Your Finance 101
 
