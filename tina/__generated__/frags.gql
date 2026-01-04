@@ -4,5 +4,9 @@ fragment PostParts on Post {
   excerpt
   date
   category
+  author
+  keywords
+  tags
+  image
   body
 }

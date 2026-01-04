@@ -50,6 +50,36 @@ export default defineConfig({
             required: true,
           },
           {
+            type: "string",
+            name: "author",
+            label: "Author",
+            description: "Author name for the post",
+          },
+          {
+            type: "string",
+            name: "keywords",
+            label: "Keywords",
+            description: "Comma-separated keywords for SEO (e.g., 'seo, blogging, tips')",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "string",
+            name: "tags",
+            label: "Tags",
+            description: "Comma-separated tags for categorization (e.g., 'productivity, habits, self-improvement')",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "image",
+            name: "image",
+            label: "Featured Image",
+            description: "Open Graph image for social media sharing (e.g., /assets/posts/images/image.png)",
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",

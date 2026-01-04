@@ -92,6 +92,10 @@ type Post implements Node & Document {
   excerpt: String
   date: String!
   category: String!
+  author: String
+  keywords: String
+  tags: String
+  image: String
   body: JSON!
   id: ID!
   _sys: SystemInfo!
@@ -113,6 +117,13 @@ input DatetimeFilter {
   in: [String]
 }
 
+input ImageFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
 input RichTextFilter {
   startsWith: String
   eq: String
@@ -124,6 +135,10 @@ input PostFilter {
   excerpt: StringFilter
   date: DatetimeFilter
   category: StringFilter
+  author: StringFilter
+  keywords: StringFilter
+  tags: StringFilter
+  image: ImageFilter
   body: RichTextFilter
 }
 
@@ -162,6 +177,10 @@ input PostMutation {
   excerpt: String
   date: String
   category: String
+  author: String
+  keywords: String
+  tags: String
+  image: String
   body: JSON
 }
 
