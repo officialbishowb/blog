@@ -11,6 +11,7 @@ import { LoadingBar } from "@/components/loading-bar"
 import { GoToTopButton } from "@/components/go-to-top-button"
 import MarkRead from "@/components/mark-read"
 import Script from "next/script"
+import { CopyButton } from "@/components/copy-button"
 
 export async function generateStaticParams() {
   const posts = await getAllPosts()
@@ -268,9 +269,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               <aside className="hidden lg:block">
                 <div className="sticky top-28">
                   <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-4">
-                    Share this Editorial
+                    Share this post
                   </p>
-                  <ShareButton url={postUrl} />
+                  <CopyButton url={postUrl} />
                 </div>
               </aside>
 
@@ -281,24 +282,5 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <GoToTopButton />
       </Suspense>
     </>
-  )
-}
-
-// Inline share button (client component would need "use client" in a separate file)
-// Using a simple anchor-based share instead
-function ShareButton({ url }: { url: string }) {
-  return (
-    <div className="flex flex-col gap-2">
-      <a
-        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="font-label text-[#bfc9c0] text-xs uppercase tracking-wider hover:text-[#96DAAF] transition-colors flex items-center gap-2"
-        aria-label="Share on X/Twitter"
-      >
-        <Link2 className="h-3.5 w-3.5" />
-        Share
-      </a>
-    </div>
   )
 }
