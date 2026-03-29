@@ -19,12 +19,18 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        serif: ["var(--font-serif)", "Instrument Serif", "serif"],
+        sans: ["var(--font-sans)", "Plus Jakarta Sans", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
+        label: ["var(--font-mono)", "JetBrains Mono", "monospace"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         gray: "var(--gray)",
         "light-gray": "var(--light-gray)",
         "accent-color": "var(--accent-color)",

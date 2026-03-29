@@ -64,61 +64,68 @@ export default function PostFilters({ posts }: Props) {
   }
 
   return (
-    <div>
-      <div className="flex items-center gap-3 mb-6">
-        <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center gap-2 mb-10">
+      <button
+        className={`font-label text-xs uppercase tracking-wider px-4 py-1.5 rounded-xl transition-colors ${
+          filter === "all"
+            ? "bg-[#96DAAF] text-[#131319]"
+            : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+        }`}
+        onClick={() => applyFilter("all")}
+      >
+        All Posts
+      </button>
+      {visibleCategories.map((c) => (
+        <button
+          key={c.key}
+          className={`font-label text-xs uppercase tracking-wider px-4 py-1.5 rounded-xl transition-colors ${
+            filter === c.key
+              ? "bg-[#96DAAF] text-[#131319]"
+              : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+          }`}
+          onClick={() => applyFilter(c.key)}
+        >
+          {prettyCategory(c.key)}
+        </button>
+      ))}
+
+      {overflowCategories.length > 0 && (
+        <div className="relative" ref={dropdownRef}>
           <button
-            className={`px-3 py-1 rounded-full ${filter === "all" ? "bg-accent-color text-white" : "bg-muted/40 text-gray dark:text-gray-300"}`}
-            onClick={() => applyFilter("all")}
+            className={`font-label text-xs uppercase tracking-wider px-4 py-1.5 flex items-center gap-1.5 transition-colors ${
+              open ? "text-[#e5e1eb]" : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+            }`}
+            onClick={() => setOpen((s) => !s)}
+            aria-expanded={open}
           >
-            All ({posts.length})
+            More
+            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
           </button>
-          {visibleCategories.map((c) => (
-            <button
-              key={c.key}
-              className={`px-3 py-1 rounded-full ${filter === c.key ? "bg-accent-color text-white" : "bg-muted/40 text-gray dark:text-gray-300"}`}
-              onClick={() => applyFilter(c.key)}
-              title={`${c.count} posts`}
-            >
-              {prettyCategory(c.key)} ({c.count})
-            </button>
-          ))}
+
+          {open && (
+            <div className="absolute left-0 mt-2 w-44 border border-[#404942]/40 z-50 py-1 rounded-xl overflow-hidden" style={{ backgroundColor: "#201f26" }}>
+              {overflowCategories.map((c) => (
+                <button
+                  key={c.key}
+                  className={`font-label text-xs uppercase tracking-wider w-full text-left px-4 py-2.5 transition-colors ${
+                    filter === c.key
+                      ? "text-[#96DAAF]"
+                      : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+                  }`}
+                  onClick={() => {
+                    applyFilter(c.key)
+                    setOpen(false)
+                  }}
+                >
+                  {prettyCategory(c.key)}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-
-        {overflowCategories.length > 0 && (
-          <div className="ml-auto relative" ref={dropdownRef}>
-            <button
-              className={`px-3 py-1 rounded-full flex items-center gap-2 ${open ? "bg-accent-color text-white" : "bg-muted/40 text-gray dark:text-gray-300"}`}
-              onClick={() => setOpen((s) => !s)}
-              aria-expanded={open}
-            >
-              Filters
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-
-            {open && (
-              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border rounded shadow z-50 p-2">
-                <div className="flex flex-col gap-2">
-                  {overflowCategories.map((c) => (
-                    <button
-                      key={c.key}
-                      className={`text-left px-3 py-1 rounded ${filter === c.key ? "bg-accent-color text-white" : "hover:bg-muted/20 dark:hover:bg-slate-700"}`}
-                      onClick={() => {
-                        applyFilter(c.key)
-                        setOpen(false)
-                      }}
-                    >
-                      {prettyCategory(c.key)} ({c.count})
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   )
 }

@@ -208,17 +208,15 @@ export function Mdx({ source }: MdxProps) {
       const type = calloutMatch[1].toLowerCase()
       const titleText = calloutMatch[2].trim()
 
-      // Remaining content lines (skip the first line which contained the callout marker)
       const bodyLines = processedLines.slice(1).filter(line => line.trim())
       const bodyHtml = bodyLines.map(line => `<p class="mb-2 last:mb-0">${line}</p>`).join('')
 
-      // Use the project's design tokens for callouts regardless of type.
-      // Keep icon shape/type but keep container/title/body consistent with project design.
+
       const calloutStyles: Record<string, { Icon: any; container: string; title: string; body: string }> = {
-        note: { Icon: Info, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
-        tip: { Icon: Lightbulb, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
-        warning: { Icon: AlertTriangle, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
-        abstract: { Icon: FileText, container: 'rounded-md border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' }
+        note: { Icon: Info, container: 'rounded-md border border-accent-color/20 bg-muted/30 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
+        tip: { Icon: Lightbulb, container: 'rounded-md border border-accent-color/20 bg-muted/30  p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
+        warning: { Icon: AlertTriangle, container: 'rounded-md border border-accent-color/20 bg-muted/30  p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
+        abstract: { Icon: FileText, container: 'rounded-md border border-accent-color/20 bg-muted/30 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' }
       }
 
       const style = calloutStyles[type] || calloutStyles['note']
@@ -264,7 +262,7 @@ export function Mdx({ source }: MdxProps) {
 
     const blockquoteContent = paragraphs.map(p => `<p class="mb-2 last:mb-0">${p}</p>`).join('')
 
-    return `<blockquote class="border border-accent-color/20 bg-muted/30 dark:bg-slate-800 p-4 my-4 text-gray dark:text-gray-300">${blockquoteContent}</blockquote>`;
+    return `<blockquote class="border border-accent-color/20 bg-muted/30 p-4 my-4 text-gray dark:text-gray-300">${blockquoteContent}</blockquote>`;
   }
 
   // Replace any callout placeholders with their stored HTML. Called at the end of processMarkdown.

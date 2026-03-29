@@ -1,16 +1,15 @@
 import { notFound } from "next/navigation"
 import { getPostBySlug, getAllPosts } from "@/lib/blog-utils"
-import { Badge } from "@/components/ui/badge"
 import { TableOfContents } from "@/components/toc"
 import { Mdx } from "@/components/mdx-components"
 import Link from "next/link"
-import { ArrowLeft, Calendar, Tag, Clock, ArrowUp } from "lucide-react"
+import Image from "next/image"
+import { ArrowLeft, ArrowRight, Link2 } from "lucide-react"
 import { Suspense } from "react"
 import PostLoading from "./loading"
 import { LoadingBar } from "@/components/loading-bar"
 import { GoToTopButton } from "@/components/go-to-top-button"
-import { CategoryBadge } from "@/components/ui/category-badge"
-import MarkRead from '@/components/mark-read'
+import MarkRead from "@/components/mark-read"
 import Script from "next/script"
 
 export async function generateStaticParams() {
@@ -23,18 +22,20 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const { slug } = await params
   const post = await getPostBySlug(slug)
-  
+
   if (!post) {
     return {
-      title: 'Post Not Found',
-      description: 'The requested blog post could not be found.'
+      title: "Post Not Found",
+      description: "The requested blog post could not be found.",
     }
   }
 
-  const siteUrl = 'https://blog.officialbishowb.com'
+  const siteUrl = "https://blog.officialbishowb.com"
   const postUrl = `${siteUrl}/blog/posts/${slug}`
-  const ogImage = post.image 
-    ? (post.image.startsWith('http') ? post.image : `${siteUrl}${post.image}`)
+  const ogImage = post.image
+    ? post.image.startsWith("http")
+      ? post.image
+      : `${siteUrl}${post.image}`
     : `${siteUrl}/assets/images/blog_logo_light.png`
 
   return {
@@ -42,29 +43,20 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
     keywords: post.keywords || [],
     authors: post.author ? [{ name: post.author }] : undefined,
-    alternates: {
-      canonical: postUrl,
-    },
+    alternates: { canonical: postUrl },
     openGraph: {
       title: post.title,
       description: post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
-      type: 'article',
+      type: "article",
       publishedTime: post.date,
       modifiedTime: post.modifiedAt,
       authors: post.author ? [post.author] : undefined,
       url: postUrl,
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
-      siteName: 'Blog',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
+      siteName: "Blog — Bishow B.",
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.title,
       description: post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
       images: [ogImage],
@@ -74,125 +66,239 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const [post, allPosts] = await Promise.all([getPostBySlug(slug), getAllPosts()])
 
   if (!post) {
     notFound()
   }
 
-  const siteUrl = 'https://blog.officialbishowb.com'
+  const siteUrl = "https://blog.officialbishowb.com"
   const postUrl = `${siteUrl}/blog/posts/${slug}`
 
-  // Generate structured data (JSON-LD)
+  // Prev / Next navigation
+  const currentIndex = allPosts.findIndex((p) => p.slug === slug)
+  const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
+  const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null
+
+  // Further reading: up to 2 posts from the same category, fallback to latest
+  const furtherReading = allPosts
+    .filter((p) => p.slug !== slug)
+    .sort((a, b) => {
+      const sameA = a.category?.main === post.category?.main ? -1 : 1
+      const sameB = b.category?.main === post.category?.main ? -1 : 1
+      return sameA - sameB
+    })
+    .slice(0, 2)
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": post.title,
-    "description": post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
-    "image": post.image 
-      ? (post.image.startsWith('http') ? post.image : `${siteUrl}${post.image}`)
+    headline: post.title,
+    description: post.description || `Read about ${post.title.toLowerCase()} on our blog.`,
+    image: post.image
+      ? post.image.startsWith("http")
+        ? post.image
+        : `${siteUrl}${post.image}`
       : `${siteUrl}/assets/images/blog_logo_light.png`,
-    "datePublished": post.date,
-    "dateModified": post.modifiedAt || post.date,
-    "author": {
-      "@type": "Person",
-      "name": post.author || "Blog Author"
-    },
-    "publisher": {
+    datePublished: post.date,
+    dateModified: post.modifiedAt || post.date,
+    author: { "@type": "Person", name: post.author || "Bishow B." },
+    publisher: {
       "@type": "Organization",
-      "name": "Blog",
-      "logo": {
-        "@type": "ImageObject",
-        "url": `${siteUrl}/assets/images/blog_logo_light.png`
-      }
+      name: "Blog — Bishow B.",
+      logo: { "@type": "ImageObject", url: `${siteUrl}/assets/images/blog_logo_light.png` },
     },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": postUrl
-    },
-    "articleSection": post.category.main,
-    "keywords": post.keywords?.join(", ") || post.title,
-    "wordCount": post.content.split(/\s+/).length,
-    "timeRequired": post.readingTime
+    mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
+    articleSection: post.category.main,
+    keywords: post.keywords?.join(", ") || post.title,
+    wordCount: post.content.split(/\s+/).length,
+    timeRequired: post.readingTime,
   }
 
   return (
     <>
-      {/* Structured Data (JSON-LD) for SEO */}
       <Script
         id="structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      {/* Mark this post as read on client mount */}
       <MarkRead slug={slug} />
       <LoadingBar />
-      <Suspense fallback={<PostLoading />}>
-        <div className="min-h-screen pt-20">
-          <div className="container section-padding">
-            <Link
-              href="/blog"
-              className="flex items-center text-muted-foreground hover:text-primary mb-8 transition-colors"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to all posts
-            </Link>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-10">
-              {/* Table of Contents - Left Sidebar */}
-              <aside className="hidden lg:block sticky top-24 self-start">
-                <div className="border rounded-lg p-6 bg-card">
-                  <h3 className="text-xl font-bold mb-4">Table of Contents</h3>
+      <Suspense fallback={<PostLoading />}>
+        <div className="min-h-screen pt-24 pb-24" style={{ backgroundColor: "#131319" }}>
+          <div className="mx-auto max-w-6xl px-6">
+
+            {/* 3-column layout: TOC | Article | Share */}
+            <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr_180px] gap-10 xl:gap-16">
+
+              {/* ── Left sidebar: Back link + Table of Contents ──────── */}
+              <aside className="hidden lg:block">
+                <div className="sticky top-28">
+                  <Link
+                    href="/"
+                    className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest flex items-center gap-2 mb-6 hover:text-[#e5e1eb] transition-colors w-fit px-3 py-2 rounded-xl border border-[#404942]/40 bg-[#1C1B22] hover:bg-[#201f26]"
+                  >
+                    <ArrowLeft className="h-3 w-3" />
+                    All Posts
+                  </Link>
+                  <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-4">
+                    Contents
+                  </p>
                   <TableOfContents source={post.content} />
                 </div>
               </aside>
 
-              {/* Main Content */}
-              <article className="max-w-3xl">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">{post.title}</h1>
+              {/* ── Center: Article ───────────────────────────────────── */}
+              <article className="min-w-0">
 
-                <div className="flex flex-wrap items-center gap-4 mb-8 text-light-gray">
-                  <div className="flex items-center">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </time>
-                  </div>
+                {/* Category chip */}
+                {post.category?.main && (
+                  <span className="font-label inline-block text-[#131319] bg-[#96DAAF] text-xs uppercase tracking-widest px-2.5 py-0.5 mb-5 rounded-xl">
+                    {post.category.sub
+                      ? `${post.category.main} / ${post.category.sub}`
+                      : post.category.main}
+                  </span>
+                )}
 
-                  <div className="flex items-center">
-                    <Tag className="mr-2 h-4 w-4" />
-                    <div className="flex flex-wrap gap-2">
-                      <CategoryBadge category={post.category} />
-                    </div>
-                  </div>
+                {/* Title */}
+                <h1 className="font-serif text-[#e5e1eb] text-[2.75rem] leading-[1.1] italic tracking-tight mb-5">
+                  {post.title}
+                </h1>
 
-                  <div className="flex items-center">
-                    <Clock className="mr-2 h-4 w-4" />
-                    <span>{post.readingTime}</span>
+                {/* Metadata */}
+                <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-wider mb-8">
+                  {new Date(post.date).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  {" · "}
+                  {post.readingTime}
+                  {post.category?.main && ` · ${post.category.main}`}
+                </p>
+
+                {/* Featured image */}
+                {post.image && (
+                  <div className="relative w-full aspect-[16/9] mb-10 overflow-hidden rounded-xl">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
-                </div>
+                )}
 
                 {/* Mobile TOC */}
-                <div className="lg:hidden mb-8 border rounded-lg p-4 bg-card">
-                  <h3 className="text-lg font-bold mb-2">Table of Contents</h3>
+                <div className="lg:hidden mb-8 border border-[#404942]/40 p-5 bg-[#1C1B22] rounded-xl">
+                  <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-3">
+                    Contents
+                  </p>
                   <TableOfContents source={post.content} />
                 </div>
 
-                <div className="prose prose-lg max-w-none px-1 py-6 text-gray">
+                {/* Prose content */}
+                <div className="prose max-w-none">
                   <Mdx source={post.content} />
                 </div>
+
+                {/* ── Prev / Next navigation ────────────────────────────── */}
+                {(prevPost || nextPost) && (
+                  <div className="mt-16 pt-8 border-t border-[#404942]/40 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {prevPost ? (
+                      <Link href={`/blog/posts/${prevPost.slug}`} className="group">
+                        <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest flex items-center gap-1.5 mb-2">
+                          <ArrowLeft className="h-3 w-3" /> Previous Post
+                        </p>
+                        <p className="font-serif text-[#e5e1eb] text-lg italic group-hover:text-[#96DAAF] transition-colors leading-snug">
+                          {prevPost.title}
+                        </p>
+                      </Link>
+                    ) : (
+                      <div />
+                    )}
+                    {nextPost ? (
+                      <Link href={`/blog/posts/${nextPost.slug}`} className="group text-right">
+                        <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest flex items-center justify-end gap-1.5 mb-2">
+                          Next Post <ArrowRight className="h-3 w-3" />
+                        </p>
+                        <p className="font-serif text-[#e5e1eb] text-lg italic group-hover:text-[#96DAAF] transition-colors leading-snug">
+                          {nextPost.title}
+                        </p>
+                      </Link>
+                    ) : (
+                      <div />
+                    )}
+                  </div>
+                )}
+
+                {/* ── Further Reading ───────────────────────────────────── */}
+                {furtherReading.length > 0 && (
+                  <section className="mt-16">
+                    <h2 className="font-label text-[#e5e1eb] text-xs uppercase tracking-widest mb-6">
+                      Further Reading
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {furtherReading.map((p) => (
+                        <Link
+                          key={p.slug}
+                          href={`/blog/posts/${p.slug}`}
+                          className="block group bg-[#1C1B22] hover:bg-[#201f26] transition-colors p-6 border border-[#404942]/40 rounded-xl"
+                        >
+                          {p.category?.main && (
+                            <p className="font-label text-[#96DAAF] text-xs uppercase tracking-widest mb-2">
+                              {p.category.main}
+                            </p>
+                          )}
+                          <h3 className="text-[#e5e1eb] font-medium text-sm leading-snug mb-2 group-hover:text-[#b1f7ca] transition-colors">
+                            {p.title}
+                          </h3>
+                          <p className="text-[#bfc9c0] text-xs leading-relaxed line-clamp-2">
+                            {p.description}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </section>
+                )}
               </article>
+
+              {/* ── Right sidebar: Share ──────────────────────────────── */}
+              <aside className="hidden lg:block">
+                <div className="sticky top-28">
+                  <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-4">
+                    Share this Editorial
+                  </p>
+                  <ShareButton url={postUrl} />
+                </div>
+              </aside>
+
             </div>
           </div>
         </div>
-        
-        {/* Go to Top Button */}
+
         <GoToTopButton />
       </Suspense>
     </>
+  )
+}
+
+// Inline share button (client component would need "use client" in a separate file)
+// Using a simple anchor-based share instead
+function ShareButton({ url }: { url: string }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <a
+        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-label text-[#bfc9c0] text-xs uppercase tracking-wider hover:text-[#96DAAF] transition-colors flex items-center gap-2"
+        aria-label="Share on X/Twitter"
+      >
+        <Link2 className="h-3.5 w-3.5" />
+        Share
+      </a>
+    </div>
   )
 }

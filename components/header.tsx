@@ -1,116 +1,122 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { ModeToggle } from "@/components/mode-toggle"
 import { Menu, X, ExternalLink } from "lucide-react"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { useTheme } from "next-themes"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const { theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setIsMenuOpen(false)
     }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
 
   const navLinks = [
-    { name: "Home", href: "/" },
+    { name: "Portfolio", href: "https://officialbishowb.com" },
+    { name: "Blog", href: "/" },
     { name: "Contact", href: "https://officialbishowb.com/#contact" },
   ]
 
-  const renderLink = (link: { name: string; href: string }) => {
-    const isExternal = link.href.startsWith("https")
-    const linkContent = (
-      <>
-        {link.name}
-        {isExternal && <ExternalLink className="ml-1 h-4 w-4 inline-block" />}
-      </>
-    )
-
-    if (isExternal) {
-      return (
-        <a
-          key={link.name}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground/80 hover:text-primary transition-colors flex items-center"
-        >
-          {linkContent}
-        </a>
-      )
-    }
-
-    return (
-      <Link key={link.name} href={link.href} className="text-foreground/80 hover:text-primary transition-colors flex items-center">
-        {linkContent}
-      </Link>
-    )
+  const pillStyle = {
+    backgroundColor: "rgba(32, 31, 38, 0.85)",
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
   }
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent",
-      )}
+    <div
+      className="fixed top-4 z-50 w-[92vw] md:w-auto"
+      style={{ left: "50%", transform: "translateX(-50%)" }}
     >
-      <div className="container flex items-center justify-between h-16 md:h-20">
-        <Link href="/" className="text-xl font-bold">
-          {mounted && theme ===
-           "dark" ? (
-            <Image src="/assets/images/blog_logo_light.png" alt="Logo" width={100} height={50} className="h-8 w-auto" />
-          ) : (
-            <Image src="/assets/images/blog_logo_dark.png" alt="Logo" width={100} height={50} className="h-8 w-auto" />
-          )}
+      {/* Main pill */}
+      <div
+        className="relative flex items-center justify-between md:justify-start gap-2 px-4 h-12 rounded-full border border-[#404942]/40"
+        style={pillStyle}
+      >
+        {/* Logo */}
+        <Link href="/" className="flex items-center shrink-0">
+          <Image
+            src="/assets/images/blog_logo_light.png"
+            alt="Blog"
+            width={100}
+            height={28}
+            className="h-6 w-auto"
+          />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {navLinks.map(renderLink)}
-          <ModeToggle />
+        {/* Desktop nav links */}
+        <nav className="hidden md:flex items-center gap-1 ml-3">
+          {navLinks.map((link) =>
+            link.href.startsWith("https") ? (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-label text-xs flex items-center gap-1 px-4 py-1.5 text-[#bfc9c0] hover:text-[#e5e1eb] transition-colors"
+              >
+                {link.name}
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            ) : (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="font-label text-xs px-4 py-1.5 text-[#e5e1eb] transition-colors"
+              >
+                {link.name}
+              </Link>
+            ),
+          )}
         </nav>
 
-        {/* Mobile Navigation Toggle */}
-        <div className="flex items-center md:hidden">
-          <ModeToggle />
-          <Button variant="ghost" size="icon" onClick={toggleMenu} className="ml-2">
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
-        </div>
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden p-1.5 text-[#bfc9c0] hover:text-[#e5e1eb] transition-colors"
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile dropdown */}
       {isMenuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md">
-          <nav className="container py-4 flex flex-col space-y-4">
-            {navLinks.map((link) => (
-              <div key={link.name} onClick={() => setIsMenuOpen(false)}>
-                {renderLink(link)}
-              </div>
-            ))}
-          </nav>
+        <div
+          className="md:hidden absolute top-full mt-2 left-0 right-0 rounded-2xl border border-[#404942]/40 py-3 px-3"
+          style={pillStyle}
+        >
+          {navLinks.map((link) =>
+            link.href.startsWith("https") ? (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-label text-xs flex items-center gap-2 px-4 py-3 rounded-xl text-[#bfc9c0] hover:text-[#e5e1eb] hover:bg-[#404942]/20 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.name}
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            ) : (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="font-label text-xs flex px-4 py-3 rounded-xl text-[#e5e1eb] hover:bg-[#404942]/20 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ),
+          )}
         </div>
       )}
-    </header>
+    </div>
   )
 }

@@ -2,142 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Design System + shadcn Variables ─────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --gray: #363540;
-  --light-gray: #75747a;
-  --foreground: #090909;
-  --accent-color: #a7ebcb;
-  --border-radius: 0.75rem;
+  /* Legacy color vars used in prose / existing components */
+  --gray: #bfc9c0;
+  --light-gray: #bfc9c0;
+  --accent-color: #96DAAF;
+  --border-radius: 0.375rem;
 
-  /* shadcn variables */
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 142 70% 79%;
-  --primary-foreground: 355.7 100% 97.3%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 142 70% 79%;
-  --radius: 0.75rem;
-}
-
-.dark {
-  --background: #212024;
-  --gray: #e0e0e0;
-  --light-gray: #a0a0a0;
-  --foreground: #ffffff;
-  --accent-color: #a7ebcb;
-
-  /* shadcn variables */
-  --background: 20 14.3% 4.1%;
-  --foreground: 0 0% 95%;
-  --card: 24 9.8% 10%;
-  --card-foreground: 0 0% 95%;
-  --popover: 0 0% 9%;
-  --popover-foreground: 0 0% 95%;
-  --primary: 142 70% 79%;
-  --primary-foreground: 144.9 80.4% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 0 0% 15%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 12 6.5% 15.1%;
-  --accent-foreground: 0 0% 98%;
+  /* shadcn HSL variables — tuned to design system dark palette */
+  --background: 252 14% 9%;        /* ≈ #131319 */
+  --foreground: 270 14% 92%;       /* ≈ #e5e1eb */
+  --card: 252 11% 12%;             /* ≈ #1C1B22 */
+  --card-foreground: 270 14% 92%;
+  --popover: 252 13% 14%;          /* ≈ #201f26 */
+  --popover-foreground: 270 14% 92%;
+  --primary: 150 47% 73%;          /* ≈ #96DAAF */
+  --primary-foreground: 150 20% 10%;
+  --secondary: 252 11% 14%;
+  --secondary-foreground: 270 10% 80%;
+  --muted: 252 11% 14%;
+  --muted-foreground: 150 10% 63%; /* ≈ #bfc9c0 */
+  --accent: 252 13% 14%;           /* ≈ #201f26 */
+  --accent-foreground: 270 14% 92%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 85.7% 97.3%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 142 70% 79%;
+  --border: 150 7% 27%;            /* ≈ #404942 at full opacity */
+  --input: 252 11% 14%;
+  --ring: 150 47% 73%;
+  --radius: 0.375rem;
 }
 
-/** Define FONT FAMILY */
-@font-face {
-  font-family: "LeagueSpartan-Black";
-  src: url("/assets/fonts/league_spartan/LeagueSpartan-Black.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "LeagueSpartan-Bold";
-  src: url("/assets/fonts/league_spartan/LeagueSpartan-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "LeagueSpartan-Light";
-  src: url("/assets/fonts/league_spartan/LeagueSpartan-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "LeagueSpartan-Medium";
-  src: url("/assets/fonts/league_spartan/LeagueSpartan-Medium.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "LeagueSpartan-Regular";
-  src: url("/assets/fonts/league_spartan/LeagueSpartan-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "LeagueSpartan-Thin";
-  src: url("/assets/fonts/league_spartan/LeagueSpartan-Thin.ttf") format("truetype");
-}
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 142 70% 79%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142 70% 79%;
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 0 0% 95%;
-    --card: 24 9.8% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 142 70% 79%;
-    --primary-foreground: 144.9 80.4% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142 70% 79%;
-  }
+/* Dark is the only mode — keep .dark in sync for next-themes */
+.dark {
+  --background: 252 14% 9%;
+  --foreground: 270 14% 92%;
+  --card: 252 11% 12%;
+  --card-foreground: 270 14% 92%;
+  --popover: 252 13% 14%;
+  --popover-foreground: 270 14% 92%;
+  --primary: 150 47% 73%;
+  --primary-foreground: 150 20% 10%;
+  --secondary: 252 11% 14%;
+  --secondary-foreground: 270 10% 80%;
+  --muted: 252 11% 14%;
+  --muted-foreground: 150 10% 63%;
+  --accent: 252 13% 14%;
+  --accent-foreground: 270 14% 92%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 85.7% 97.3%;
+  --border: 150 7% 27%;
+  --input: 252 11% 14%;
+  --ring: 150 47% 73%;
 }
 
 @layer base {
@@ -145,85 +61,55 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: "LeagueSpartan-Bold", sans-serif;
-  }
-  p,
-  a,
-  span,
-  li {
-    font-family: "LeagueSpartan-Regular", sans-serif;
-  }
-  .font-thin {
-    font-family: "LeagueSpartan-Thin", sans-serif;
-  }
-  .font-light {
-    font-family: "LeagueSpartan-Light", sans-serif;
-  }
-  .font-medium {
-    font-family: "LeagueSpartan-Medium", sans-serif;
-  }
-  .font-bold {
-    font-family: "LeagueSpartan-Bold", sans-serif;
-  }
-  .font-black {
-    font-family: "LeagueSpartan-Black", sans-serif;
+    background-color: #131319;
+    color: #e5e1eb;
   }
 }
 
-.section-padding {
-  @apply py-16 md:py-24;
+@layer utilities {
+  .font-label {
+    font-family: var(--font-mono), "JetBrains Mono", monospace;
+  }
 }
 
 .container {
   @apply px-4 mx-auto max-w-5xl;
 }
 
-/* Custom styles for blog content */
+/* ─── Prose / Article Content ─────────────────────────────────────────── */
+
 .prose h1,
 .prose h2,
 .prose h3,
 .prose h4,
 .prose h5,
 .prose h6 {
-  color: var(--foreground);
-  margin-top: 1.5em;
+  color: #e5e1eb;
+  font-family: var(--font-sans), "Plus Jakarta Sans", sans-serif;
+  margin-top: 1.75em;
   margin-bottom: 0.75em;
+  font-weight: 600;
 }
 
-.prose h1 {
-  font-size: 2.25rem;
-  margin-top: 1em;
-}
-
-.prose h2 {
-  font-size: 1.875rem;
-}
-
-.prose h3 {
-  font-size: 1.5rem;
-}
+.prose h1 { font-size: 2rem; }
+.prose h2 { font-size: 1.5rem; border-bottom: 1px solid rgba(64, 73, 66, 0.4); padding-bottom: 0.5em; }
+.prose h3 { font-size: 1.25rem; }
 
 .prose p {
-  color: var(--gray);
+  color: #bfc9c0;
   margin-bottom: 1.25em;
-  line-height: 1.7;
+  line-height: 1.8;
+  font-size: 0.9375rem;
 }
 
 .prose a {
-  color: var(--accent-color);
+  color: #96DAAF;
   text-decoration: none;
 }
 
 .prose a:hover {
   text-decoration: underline;
+  color: #b1f7ca;
 }
 
 .prose ul,
@@ -234,90 +120,118 @@
 }
 
 .prose li {
-  color: var(--gray);
+  color: #bfc9c0;
   margin-bottom: 0.5em;
+  line-height: 1.7;
 }
 
 .prose code {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-size: 0.9em;
+  background-color: #1C1B22;
+  color: #96DAAF;
+  padding: 0.15em 0.4em;
+  border-radius: 2px;
+  font-size: 0.875em;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
 }
 
 .prose pre {
   position: relative;
-  background-color: var(--muted);
-  border-radius: var(--radius);
+  background-color: #1C1B22;
+  border-left: 2px solid #96DAAF;
+  border-radius: 0.75rem;
   overflow-x: auto;
-  margin: 1.5em 0;
+  margin: 1.75em 0;
+  padding: 1.25rem;
 }
 
 .prose pre code {
   background-color: transparent;
+  color: #e5e1eb;
   padding: 0;
   border-radius: 0;
-  font-size: 0.9em;
-  font-family: "Menlo", "Monaco", "Courier New", monospace;
-}
-
-/* Improve code block readability */
-.prose code {
-  font-family: "Menlo", "Monaco", "Courier New", monospace;
+  font-size: 0.875em;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
 }
 
 .prose blockquote {
-  border-left: 4px solid var(--accent-color);
-  padding-left: 1em;
+  border-left: 2px solid #96DAAF;
+  padding: 0.75em 1.25em;
   margin-left: 0;
   margin-right: 0;
+  background-color: #1C1B22;
+  border-radius: 0 0.75rem 0.75rem 0;
+  font-style: italic;
+  color: #bfc9c0;
 }
 
 .prose img {
   max-width: 100%;
   height: auto;
-  border-radius: var(--border-radius);
-  margin: 1.5em 0;
-  border: 2px solid var(--accent-color);
+  border-radius: 0.375rem;
+  margin: 1.75em 0;
 }
 
 .prose hr {
   border: 0;
-  border-top: 2px solid var(--accent-color);
-  margin: 2em 0;
+  border-top: 1px solid rgba(64, 73, 66, 0.4);
+  margin: 2.5em 0;
 }
 
-/* Fix for theme switching */
-.dark body {
-  background-color: #1C1B22;
-  color: #e0e0e0;
+.prose strong {
+  color: #e5e1eb;
+  font-weight: 600;
 }
 
-.light body {
-  background-color: #ffffff;
-  color: #363540;
+.prose em {
+  color: #bfc9c0;
 }
 
-/* Loading animation styles */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+.prose th {
+  text-align: left;
+  padding: 0.75em 1em;
+  border-bottom: 1px solid rgba(64, 73, 66, 0.4);
+  color: #e5e1eb;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.prose td {
+  padding: 0.75em 1em;
+  border-bottom: 1px solid rgba(64, 73, 66, 0.2);
+  color: #bfc9c0;
+  font-size: 0.9em;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-@keyframes loading {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+/* Accordion animations (shadcn) */
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
 }
