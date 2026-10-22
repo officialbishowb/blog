@@ -1,7 +1,8 @@
 FROM oven/bun:1 AS build
 WORKDIR /app
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+# tinacms pulls in better-sqlite3 (native build); the site never uses it
+RUN bun install --frozen-lockfile --ignore-scripts
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN bun run build
