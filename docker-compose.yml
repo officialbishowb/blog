@@ -1,0 +1,14 @@
+services:
+  blog:
+    build: .
+    restart: unless-stopped
+    # no published port: only reachable through the tunnel
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on:
+      - blog
