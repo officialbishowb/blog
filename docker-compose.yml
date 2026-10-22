@@ -1,6 +1,8 @@
 services:
   blog:
     build: .
+    ports:
+      - "3002:3000"
     restart: unless-stopped
     # no published port: only reachable through the tunnel
 
