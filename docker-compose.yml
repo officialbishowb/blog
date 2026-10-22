@@ -2,7 +2,7 @@ services:
   blog:
     build: .
     ports:
-      - "3002:3000"
+      - "3001:3000"
     restart: unless-stopped
 
   cloudflared:
