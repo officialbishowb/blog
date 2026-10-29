@@ -4,8 +4,17 @@ COPY package.json bun.lock ./
 # tinacms pulls in better-sqlite3 (native build); the site never uses it
 RUN bun install --frozen-lockfile --ignore-scripts
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
-RUN bun run build
+# tinacms build needs Tina Cloud credentials; NEXT_PUBLIC_* are also inlined by next build
+ARG NEXT_PUBLIC_TINA_PUBLIC_CLIENT_ID
+ARG NEXT_PUBLIC_TINA_TOKEN
+ARG NEXT_PUBLIC_TINA_PUBLIC_BRANCH=main
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PUBLIC_TINA_PUBLIC_CLIENT_ID=$NEXT_PUBLIC_TINA_PUBLIC_CLIENT_ID \
+    NEXT_PUBLIC_TINA_CLIENT_ID=$NEXT_PUBLIC_TINA_PUBLIC_CLIENT_ID \
+    NEXT_PUBLIC_TINA_TOKEN=$NEXT_PUBLIC_TINA_TOKEN \
+    NEXT_PUBLIC_TINA_PUBLIC_BRANCH=$NEXT_PUBLIC_TINA_PUBLIC_BRANCH
+# builds the admin UI into public/admin, then the Next.js app
+RUN bun run tina:build
 
 FROM oven/bun:1-slim
 WORKDIR /app
