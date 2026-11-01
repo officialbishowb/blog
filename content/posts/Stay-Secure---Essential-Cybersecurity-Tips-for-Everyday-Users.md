@@ -6,7 +6,7 @@ category: Cybersecurity>Security Awareness
 author: Bishow
 keywords: 'cybersecurity, online security, password security, MFA, two-factor authentication, phishing protection, malware prevention, internet safety'
 tags: 'cybersecurity, security, online safety, password management, internet security'
-image: /content/posts/images/assets/images/blog_logo_light.png
+image: /assets/images/blog_logo_light.png
 ---
 
 # Stay Secure: Essential Cybersecurity Tips for Everyday Users

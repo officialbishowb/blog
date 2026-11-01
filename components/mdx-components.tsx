@@ -117,6 +117,8 @@ export function Mdx({ source }: MdxProps) {
     
     // Horizontal rules (---, ***, ___)
     content = content.replace(/^(\s*)([-*_]){3,}\s*$/gm, '<hr class="my-6 border-t border-gray-300 dark:border-gray-700" />');
+    // Lists (-, *, +, 1.) incl. nesting — must run before indented code blocks
+    content = processLists(content);
     // Indented code blocks (4 spaces or a tab)
     content = content.replace(/^(?:    |\t)(.+)$/gm, (match, code) => {
       return `<pre class="language-plaintext"><code class="language-plaintext">${escapeHtml(code)}</code></pre>`;
@@ -155,15 +157,6 @@ export function Mdx({ source }: MdxProps) {
           return `<a href="${url}" class="${linkClass}" target="_blank" rel="noopener noreferrer">${text}${externalIcon}</a>`
         }
       })
-      // Unordered list
-      .replace(/^-\s+(.+)$/gm, '<li class="text-gray ml-4 my-2">$1</li>')
-      // Ordered list
-      .replace(/^\d+\.\s+(.+)$/gm, '<li class="text-gray ml-4 my-2">$1</li>')
-      // List wrapper
-      .replace(/(<li class="text-gray ml-4 my-2">[\s\S]*?<\/li>\n?)+/g, (match) => {
-        const isOrdered = /^\d+\./.test(match)
-        return `<${isOrdered ? 'ol' : 'ul'} class="${isOrdered ? 'list-decimal' : 'list-disc'} pl-6 my-4">${match}</${isOrdered ? 'ol' : 'ul'}>`
-      })
       // Bold: __text__ or **text**
       .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
       .replace(/\b__([^_]+)__\b/g, '<strong>$1</strong>')
@@ -181,6 +174,81 @@ export function Mdx({ source }: MdxProps) {
     // Inject callouts stored earlier so they are not mangled by regexes
     content = injectCallouts(content)
     return content
+  }
+
+  // Convert markdown lists into HTML. Supports "-", "*", "+" bullets, "1." / "1)" ordered items
+  // and nesting by indentation. Each list is emitted on a single line so the paragraph
+  // wrapper further down leaves it alone.
+  const processLists = (content: string) => {
+    const itemRe = /^(\s*)([-*+]|\d+[.)])\s+(.*)$/
+    type Item = { indent: number; ordered: boolean; start: number; text: string }
+
+    const renderList = (items: Item[]) => {
+      let html = ""
+      const stack: { indent: number; tag: string }[] = []
+      const open = (it: Item, nested: boolean) => {
+        const margin = nested ? "my-2" : "my-4"
+        return it.ordered
+          ? `<ol class="list-decimal pl-6 ${margin}"${it.start !== 1 ? ` start="${it.start}"` : ""}>`
+          : `<ul class="list-disc pl-6 ${margin}">`
+      }
+      for (const it of items) {
+        const tag = it.ordered ? "ol" : "ul"
+        while (stack.length && it.indent < stack[stack.length - 1].indent) {
+          html += `</li></${stack.pop()!.tag}>`
+        }
+        const top = stack[stack.length - 1]
+        if (!top || it.indent > top.indent) {
+          html += open(it, stack.length > 0)
+          stack.push({ indent: it.indent, tag })
+        } else if (top.tag !== tag) {
+          html += `</li></${top.tag}>` + open(it, stack.length > 1)
+          top.tag = tag
+        } else {
+          html += "</li>"
+        }
+        html += `<li class="text-gray ml-4 my-2">${it.text}`
+      }
+      while (stack.length) html += `</li></${stack.pop()!.tag}>`
+      return html
+    }
+
+    const lines = content.split("\n")
+    const out: string[] = []
+    let inFence = false
+    let i = 0
+    while (i < lines.length) {
+      const line = lines[i]
+      if (/^\s*```/.test(line)) inFence = !inFence
+      if (inFence || !itemRe.test(line)) {
+        out.push(line)
+        i++
+        continue
+      }
+      const items: Item[] = []
+      while (i < lines.length) {
+        const cur = lines[i]
+        const m = cur.match(itemRe)
+        if (m) {
+          items.push({
+            indent: m[1].replace(/\t/g, "    ").length,
+            ordered: /\d/.test(m[2]),
+            start: parseInt(m[2], 10) || 1,
+            text: m[3],
+          })
+        } else if (cur.trim() !== "" && /^\s+/.test(cur)) {
+          // Indented continuation line belongs to the previous item
+          items[items.length - 1].text += " " + cur.trim()
+        } else if (cur.trim() === "" && i + 1 < lines.length && itemRe.test(lines[i + 1])) {
+          // Blank line between items (loose list)
+        } else {
+          break
+        }
+        i++
+      }
+      out.push(renderList(items))
+    }
+    return out.join("\n")
   }
 
   // Helper function to process blockquote content
@@ -274,12 +342,15 @@ export function Mdx({ source }: MdxProps) {
   }
 
   useEffect(() => {
+    // Normalize Windows line endings so line-based regexes behave consistently
+    const normalized = source.replace(/\r\n?/g, "\n")
+
     // First create the FAQ elements
-    const faqItems = processFAQ(source)
+    const faqItems = processFAQ(normalized)
     setFaqElements(faqItems)
 
     // Then process the content, replacing the FAQ section with a placeholder
-    const contentWithoutFAQ = source.replace(/\[FAQ\]([\s\S]*?)\[END\]/, '<div id="faq-section"></div>')
+    const contentWithoutFAQ = normalized.replace(/\[FAQ\]([\s\S]*?)\[END\]/, '<div id="faq-section"></div>')
     const processedContent = processMarkdown(contentWithoutFAQ)
     const finalContent = processCodeBlocks(processedContent)
     setContent(finalContent)
