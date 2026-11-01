@@ -98,7 +98,7 @@ By enabling MFA (multifactor authentication), the user has to verify their ident
 
 There are many services available, such as Ente Auth (which I use) or Google Authenticator, which can be used for MFA. This, however, mostly depends on the application and the type of MFA they provide.
 
-> Two-factor authentication (2FA), a form of multi-factor authentication (MFA) uses at least two different authentication factors: something you **know **(e.g., a password), something you **have **(e.g., a smartphone), or something that is **unique to you** (e.g., a fingerprint). This provides an additional layer of security that goes beyond a password alone.
+> Two-factor authentication (2FA), a form of multi-factor authentication (MFA) uses at least two different authentication factors: something you **know** (e.g., a password), something you **have** (e.g., a smartphone), or something that is **unique to you** (e.g., a fingerprint). This provides an additional layer of security that goes beyond a password alone.
 
 ## Public Wi-Fi
 
