@@ -13,7 +13,7 @@ import Footer from "@/components/footer"
 import Script from "next/script"
 
 export const metadata = {
-  title: "Blog — Bishow B.",
+  title: "Blog | Bishow B.",
   description: "Thoughts & Notes on full-stack development, architecture, and engineering craft.",
 }
 

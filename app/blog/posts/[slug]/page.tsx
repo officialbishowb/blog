@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       authors: post.author ? [post.author] : undefined,
       url: postUrl,
       images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
-      siteName: "Blog — Bishow B.",
+      siteName: "Blog | Bishow B.",
     },
     twitter: {
       card: "summary_large_image",
@@ -106,7 +106,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     author: { "@type": "Person", name: post.author || "Bishow B." },
     publisher: {
       "@type": "Organization",
-      name: "Blog — Bishow B.",
+      name: "Blog | Bishow B.",
       logo: { "@type": "ImageObject", url: `${siteUrl}/assets/images/blog_logo_light.png` },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
