@@ -79,9 +79,9 @@ export function TableOfContents({ source }: TableOfContentsProps) {
 
   return (
     <nav className="toc">
-      <ul className="space-y-2 text-sm">
+      <ul className="space-y-1 text-sm border-l border-border">
         {headings.map((heading) => {
-          const indentClasses = ['', 'ml-4', 'ml-8', 'ml-12', 'ml-16', 'ml-20']
+          const indentClasses = ['pl-4', 'pl-4', 'pl-7', 'pl-10', 'pl-12', 'pl-14']
           const indent = indentClasses[Math.max(0, Math.min(5, heading.level - 1))]
 
           return (
@@ -89,8 +89,8 @@ export function TableOfContents({ source }: TableOfContentsProps) {
               <a
                 href={`#${heading.id}`}
                 className={cn(
-                  'block py-1 hover:text-accent-color transition-colors',
-                  activeId === heading.id ? 'text-accent-color font-medium' : 'text-light-gray'
+                  '-ml-px block border-l py-1.5 leading-snug transition-colors hover:text-foreground',
+                  activeId === heading.id ? 'border-primary text-foreground font-medium' : 'border-transparent text-subtle'
                 )}
                 onClick={(e) => {
                   e.preventDefault()

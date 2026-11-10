@@ -1,10 +1,14 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, ExternalLink } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Suspense } from "react"
 import Loading from "./loading"
 import { getAllPosts } from "@/lib/blog-utils"
 import PostList from "@/components/post-list"
+
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+}
 
 export default async function Home() {
   const posts = await getAllPosts()
@@ -12,125 +16,94 @@ export default async function Home() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="min-h-screen pt-32 pb-24" style={{ backgroundColor: "#131319" }}>
-        <div className="mx-auto max-w-5xl px-6">
+      <div className="py-20 md:py-28">
+        <div className="ds-container">
 
           {/* Page header */}
-          <div className="mb-14">
-            <span className="font-label inline-block text-[#96DAAF] text-xs uppercase tracking-widest border border-[#96DAAF]/30 bg-[#201f26] px-3 py-1 mb-6 rounded-xl">
-              Blog
-            </span>
-            <h1 className="font-serif text-[3.75rem] leading-[1.05] tracking-tight text-[#e5e1eb] italic">
-              Thoughts &amp; Notes.
-            </h1>
+          <div className="mb-14 max-w-2xl">
+            <p className="ds-label-accent mb-4">Blog</p>
+            <h1 className="ds-display mb-6">Thoughts &amp; notes.</h1>
+            <p className="ds-lead">
+              Things I learn while building, reading and breaking stuff: development, security, and the habits
+              behind both. Written by{" "}
+              <a href="https://officialbishowb.com/#about" className="ds-link">
+                me
+              </a>
+              .
+            </p>
           </div>
 
           {/* Category filters */}
           <PostList posts={posts} />
 
           {/* Posts */}
-          <div id="posts-grid" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div id="posts-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            {/* Featured post — spans full width */}
+            {/* Featured post */}
             {featured && (
               <Link
                 href={`/blog/posts/${featured.slug}`}
-                className="md:col-span-2 block group"
+                className="ds-card md:col-span-2 group flex flex-col md:flex-row overflow-hidden"
                 data-category-main={featured.category?.main}
               >
-                <div className="flex flex-col md:flex-row border border-[#404942]/40 bg-[#1C1B22] hover:bg-[#201f26] transition-colors duration-300 h-full rounded-xl overflow-hidden">
-                  {/* Thumbnail / placeholder */}
-                  <div className="md:w-[42%] aspect-[4/3] relative overflow-hidden shrink-0 bg-[#201f26]">
-                    {featured.image ? (
-                      <Image
-                        src={featured.image}
-                        alt={featured.title}
-                        fill
-                        className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="font-label text-[#404942] text-xs uppercase tracking-widest">
-                          {featured.category?.main ?? "Post"}
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                <div className="md:w-[42%] aspect-[4/3] relative overflow-hidden shrink-0 bg-secondary border-b md:border-b-0 md:border-r border-border">
+                  {featured.image ? (
+                    <Image
+                      src={featured.image}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="ds-label">{featured.category?.main ?? "Post"}</span>
+                    </div>
+                  )}
+                </div>
 
-                  {/* Content */}
-                  <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
-                    <div>
-                      <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-3">
-                        Latest Post
-                      </p>
+                <div className="flex-1 p-8 md:p-10 flex flex-col justify-between gap-8">
+                  <div>
+                    <p className="ds-label mb-4">
+                      Latest
                       {featured.category?.main && (
-                        <p className="font-label text-[#96DAAF] text-xs uppercase tracking-widest mb-4">
-                          {featured.category.main}
-                        </p>
+                        <>
+                          {" · "}
+                          <span className="text-primary">{featured.category.main}</span>
+                        </>
                       )}
-                      <h2 className="font-serif text-[#e5e1eb] text-[1.875rem] leading-tight italic mb-4">
-                        {featured.title}
-                      </h2>
-                      <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-wider mb-5">
-                        {new Date(featured.date).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                        {" · "}
-                        {featured.readingTime}
-                      </p>
-                      <p className="text-[#bfc9c0] text-sm leading-relaxed line-clamp-3">
-                        {featured.description}
-                      </p>
-                    </div>
-                    <div className="mt-8">
-                      <span className="font-label text-[#96DAAF] text-xs uppercase tracking-widest flex items-center gap-2">
-                        Read Article <ArrowRight className="h-3 w-3" />
-                      </span>
-                    </div>
+                    </p>
+                    <h2 className="ds-h2 mb-4 group-hover:text-primary transition-colors">{featured.title}</h2>
+                    <p className="ds-label mb-5">
+                      {formatDate(featured.date)} · {featured.readingTime}
+                    </p>
+                    <p className="line-clamp-3">{featured.description}</p>
                   </div>
+                  <span className="inline-flex items-center gap-2 font-medium text-primary">
+                    Read article <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </span>
                 </div>
               </Link>
             )}
 
-            {/* Regular posts — 2-column grid */}
+            {/* Regular posts */}
             {rest.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/posts/${post.slug}`}
-                className="block group"
+                className="ds-card group flex min-h-[260px] flex-col justify-between gap-6 p-7"
                 data-category-main={post.category?.main}
               >
-                <div className="h-full border border-[#404942]/40 bg-[#1C1B22] hover:bg-[#201f26] transition-colors duration-300 p-8 flex flex-col justify-between min-h-[280px] rounded-xl">
-                  <div>
-                    {post.category?.main && (
-                      <p className="font-label text-[#96DAAF] text-xs uppercase tracking-widest mb-3">
-                        {post.category.main}
-                      </p>
-                    )}
-                    <h2 className="text-[#e5e1eb] font-medium text-[1.0625rem] leading-snug mb-3">
-                      {post.title}
-                    </h2>
-                    <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-wider mb-4">
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                      {" · "}
-                      {post.readingTime}
-                    </p>
-                    <p className="text-[#bfc9c0] text-sm leading-relaxed line-clamp-3">
-                      {post.description}
-                    </p>
-                  </div>
-                  <div className="mt-6 flex items-center justify-between">
-                    <span className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest flex items-center gap-1.5 group-hover:text-[#96DAAF] transition-colors">
-                      View Full Post <ExternalLink className="h-3 w-3" />
-                    </span>
-                  </div>
+                <div>
+                  {post.category?.main && <p className="ds-label-accent mb-3">{post.category.main}</p>}
+                  <h2 className="ds-h3 mb-3 group-hover:text-primary transition-colors">{post.title}</h2>
+                  <p className="ds-label mb-4">
+                    {formatDate(post.date)} · {post.readingTime}
+                  </p>
+                  <p className="line-clamp-3">{post.description}</p>
                 </div>
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+                  Read post <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </span>
               </Link>
             ))}
           </div>

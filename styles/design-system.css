@@ -1,0 +1,321 @@
+/* ==========================================================================
+   design-system.css  ·  v1.0
+   The single source of truth for every officialbishowb site.
+   This exact file is shared between the portfolio and the blog: edit it in
+   one place, copy it to the other, and both sites change.
+
+   - Colors are HSL channels ("H S% L%") so Tailwind opacity modifiers work:
+       bg-primary/10, border-border/60, ...
+   - Tailwind reads them through tailwind.config.ts (bg-background,
+     text-muted-foreground, text-subtle, border-border-strong, ...).
+   - Outside Tailwind use them as  hsl(var(--primary)).
+   - Dark is the default. Put class="light" on <html> for the light theme.
+
+   FONTS: IBM Plex Sans + IBM Plex Mono (SIL Open Font License, free for
+   commercial use). Self-hosted via npm, no Google request at runtime:
+       bun add @fontsource/ibm-plex-sans @fontsource/ibm-plex-mono
+       import "@fontsource/ibm-plex-sans/400.css"  (also 500, 600, 400-italic)
+       import "@fontsource/ibm-plex-mono/400.css"  (also 500)
+   To change the typeface, swap those imports and the two --font-* lines.
+   ========================================================================== */
+
+:root,
+.dark {
+  /* ---- Brand: change these four lines to rebrand everything -------------- */
+  --primary: 20 100% 56%;            /* #FF6A1F  orange fills, links, marks  */
+  --primary-hover: 21 100% 63%;      /* #FF8442                              */
+  --primary-foreground: 24 83% 5%;   /* #160A02  text on an orange fill      */
+  --ring: 20 100% 56%;
+
+  /* ---- Surfaces ---------------------------------------------------------- */
+  --background: 240 4% 4.5%;         /* #0B0B0C  page                        */
+  --card: 240 4% 9%;                 /* #161618  cards, panels               */
+  --popover: 240 4% 9%;
+  --secondary: 240 4% 13.5%;         /* #212124  hover, nested surfaces      */
+  --muted: 240 4% 13.5%;
+  --accent: 240 4% 13.5%;            /* shadcn "accent" = hover surface      */
+  --input: 240 5% 28.5%;
+
+  /* ---- Lines ------------------------------------------------------------- */
+  --border: 240 5% 19%;              /* #2E2E33  card edges, dividers        */
+  --border-strong: 240 5% 28.5%;     /* #45454C  inputs, secondary buttons   */
+
+  /* ---- Text: three levels ------------------------------------------------ */
+  --foreground: 60 5% 96%;           /* #F5F5F4  headings, primary text      */
+  --muted-foreground: 240 3% 71.5%;  /* #B4B4B8  body copy                   */
+  --subtle: 240 3% 57%;              /* #8E8E94  labels, meta (passes 4.5:1) */
+  --card-foreground: 60 5% 96%;
+  --popover-foreground: 60 5% 96%;
+  --secondary-foreground: 60 5% 96%;
+  --accent-foreground: 60 5% 96%;
+
+  /* ---- Status ------------------------------------------------------------ */
+  --destructive: 0 91% 71%;
+  --destructive-foreground: 240 4% 4.5%;
+
+  /* ---- Typography -------------------------------------------------------- */
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-display: clamp(2.75rem, 6.4vw, 5rem);
+  --text-h1: clamp(2.25rem, 4.5vw, 3.5rem);
+  --text-h2: clamp(1.875rem, 3.2vw, 2.5rem);
+  --text-h3: 1.5rem;
+  --text-lead: 1.25rem;
+  --text-body-lg: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-label: 0.75rem;
+
+  /* ---- Shape & layout ---------------------------------------------------- */
+  --radius: 0.875rem;                /* 14px cards (Tailwind rounded-lg)     */
+  --radius-md: 0.625rem;             /* 10px buttons, inputs                 */
+  --radius-sm: 0.375rem;             /* 6px tags                             */
+  --container: 70rem;                /* 1120px                               */
+  --gutter: 1.5rem;
+  --control-height: 3rem;            /* 48px, never below 44                 */
+
+  color-scheme: dark;
+}
+
+.light {
+  --primary: 20 100% 56%;
+  --primary-hover: 20 91% 50%;
+  --primary-foreground: 24 83% 5%;
+  --ring: 20 100% 56%;
+
+  --background: 0 0% 98%;
+  --card: 0 0% 100%;
+  --popover: 0 0% 100%;
+  --secondary: 240 3% 94.3%;
+  --muted: 240 3% 94.3%;
+  --accent: 240 3% 94.3%;
+  --input: 240 4.5% 73.7%;
+
+  --border: 240 4% 86%;
+  --border-strong: 240 4.5% 73.7%;
+
+  --foreground: 240 4.5% 8.6%;
+  --muted-foreground: 240 3.4% 34.5%;
+  --subtle: 240 3.2% 43.3%;
+  --card-foreground: 240 4.5% 8.6%;
+  --popover-foreground: 240 4.5% 8.6%;
+  --secondary-foreground: 240 4.5% 8.6%;
+  --accent-foreground: 240 4.5% 8.6%;
+
+  --destructive: 0 74% 42%;
+  --destructive-foreground: 0 0% 100%;
+
+  color-scheme: light;
+}
+
+/* On a light page orange text needs a darker shade to stay readable. */
+.light .ds-accent-text,
+.light .ds-label-accent,
+.light .ds-link {
+  color: hsl(17.5 88% 40.4%);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--muted-foreground));
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+::selection {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+/* ==========================================================================
+   Building blocks (plain CSS, usable with or without Tailwind)
+   ========================================================================== */
+
+.ds-container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Type */
+.ds-display {
+  font-size: var(--text-display);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  text-wrap: balance;
+}
+.ds-h1 {
+  font-size: var(--text-h1);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  text-wrap: balance;
+}
+.ds-h2 {
+  font-size: var(--text-h2);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  text-wrap: balance;
+}
+.ds-h3 {
+  font-size: var(--text-h3);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+.ds-lead {
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.ds-body-lg {
+  font-size: var(--text-body-lg);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+.ds-label,
+.ds-label-accent {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--subtle));
+}
+.ds-label-accent,
+.ds-accent-text {
+  color: hsl(var(--primary));
+}
+
+/* Inline text link */
+.ds-link {
+  color: hsl(var(--foreground));
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary));
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  transition: color 150ms;
+}
+.ds-link:hover {
+  color: hsl(var(--primary));
+}
+
+/* Buttons */
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: var(--control-height);
+  padding: 0 1.375rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, color 150ms;
+}
+.ds-btn-primary {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 600;
+}
+.ds-btn-primary:hover {
+  background: hsl(var(--primary-hover));
+}
+.ds-btn-secondary {
+  border-color: hsl(var(--border-strong));
+  color: hsl(var(--foreground));
+}
+.ds-btn-secondary:hover {
+  background: hsl(var(--secondary));
+}
+
+/* Card: surface fill plus a full-strength border */
+.ds-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+}
+a.ds-card,
+.ds-card-interactive {
+  transition: border-color 150ms, background-color 150ms;
+}
+a.ds-card:hover,
+.ds-card-interactive:hover {
+  border-color: hsl(var(--border-strong));
+  background: hsl(var(--secondary));
+}
+
+/* Tag / chip */
+.ds-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: 1.5;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.5rem;
+}
+
+/* Loading skeleton block */
+.ds-skeleton {
+  background: hsl(var(--secondary));
+  border-radius: var(--radius-sm);
+}
+
+/* Section rhythm */
+.ds-section {
+  border-top: 1px solid hsl(var(--border));
+  padding-block: clamp(4rem, 9vw, 6rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -127,7 +127,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <LoadingBar />
 
       <Suspense fallback={<PostLoading />}>
-        <div className="min-h-screen pt-24 pb-24" style={{ backgroundColor: "#131319" }}>
+        <div className="py-14 md:py-20">
           <div className="mx-auto max-w-6xl px-6">
 
             {/* 3-column layout: TOC | Article | Share */}
@@ -138,12 +138,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 <div className="sticky top-28">
                   <Link
                     href="/"
-                    className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest flex items-center gap-2 mb-6 hover:text-[#e5e1eb] transition-colors w-fit px-3 py-2 rounded-xl border border-[#404942]/40 bg-[#1C1B22] hover:bg-[#201f26]"
+                    className="ds-btn ds-btn-secondary min-h-10 px-3.5 text-sm mb-8"
                   >
-                    <ArrowLeft className="h-3 w-3" />
-                    All Posts
+                    <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+                    All posts
                   </Link>
-                  <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-4">
+                  <p className="ds-label mb-4">
                     Contents
                   </p>
                   <TableOfContents source={post.content} />
@@ -155,7 +155,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
                 {/* Category chip */}
                 {post.category?.main && (
-                  <span className="font-label inline-block text-[#131319] bg-[#96DAAF] text-xs uppercase tracking-widest px-2.5 py-0.5 mb-5 rounded-xl">
+                  <span className="ds-label-accent inline-block mb-5">
                     {post.category.sub
                       ? `${post.category.main} / ${post.category.sub}`
                       : post.category.main}
@@ -163,12 +163,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 )}
 
                 {/* Title */}
-                <h1 className="font-serif text-[#e5e1eb] text-[2.75rem] leading-[1.1] italic tracking-tight mb-5">
+                <h1 className="ds-h1 mb-5">
                   {post.title}
                 </h1>
 
                 {/* Metadata */}
-                <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-wider mb-8">
+                <p className="ds-label mb-10 pb-8 border-b border-border">
                   {new Date(post.date).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -176,12 +176,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   })}
                   {" · "}
                   {post.readingTime}
-                  {post.category?.main && ` · ${post.category.main}`}
+                  {" · by me"}
                 </p>
 
                 {/* Featured image */}
                 {post.image && (
-                  <div className="relative w-full aspect-[16/9] mb-10 overflow-hidden rounded-xl">
+                  <div className="relative w-full aspect-[16/9] mb-10 overflow-hidden rounded-lg border border-border">
                     <Image
                       src={post.image}
                       alt={post.title}
@@ -192,8 +192,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 )}
 
                 {/* Mobile TOC */}
-                <div className="lg:hidden mb-8 border border-[#404942]/40 p-5 bg-[#1C1B22] rounded-xl">
-                  <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-3">
+                <div className="lg:hidden mb-10 ds-card p-5">
+                  <p className="ds-label mb-3">
                     Contents
                   </p>
                   <TableOfContents source={post.content} />
@@ -204,15 +204,37 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   <Mdx source={post.content} />
                 </div>
 
+                {/* ── Author ──────────────────────────────────────────────── */}
+                <div className="mt-16 ds-card flex flex-wrap items-center gap-5 p-6">
+                  <Image
+                    src="/assets/images/avatar.jpg"
+                    alt="Portrait of Bishow"
+                    width={64}
+                    height={64}
+                    unoptimized
+                    className="h-16 w-16 rounded-full border border-border object-cover object-top"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="ds-label mb-1">Written by</p>
+                    <p className="text-foreground font-semibold">Bishow B.</p>
+                    <p className="text-sm">
+                      Full-Stack Developer from Vienna, studying IT security.{" "}
+                      <a href="https://officialbishowb.com" className="ds-link">
+                        More about me
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
                 {/* ── Prev / Next navigation ────────────────────────────── */}
                 {(prevPost || nextPost) && (
-                  <div className="mt-16 pt-8 border-t border-[#404942]/40 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="mt-16 pt-8 border-t border-border grid grid-cols-1 md:grid-cols-2 gap-6">
                     {prevPost ? (
                       <Link href={`/blog/posts/${prevPost.slug}`} className="group">
-                        <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                          <ArrowLeft className="h-3 w-3" /> Previous Post
+                        <p className="ds-label flex items-center gap-1.5 mb-2">
+                          <ArrowLeft aria-hidden="true" className="h-3 w-3" /> Previous
                         </p>
-                        <p className="font-serif text-[#e5e1eb] text-lg italic group-hover:text-[#96DAAF] transition-colors leading-snug">
+                        <p className="text-foreground text-lg font-semibold group-hover:text-primary transition-colors leading-snug">
                           {prevPost.title}
                         </p>
                       </Link>
@@ -221,10 +243,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                     )}
                     {nextPost ? (
                       <Link href={`/blog/posts/${nextPost.slug}`} className="group text-right">
-                        <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest flex items-center justify-end gap-1.5 mb-2">
-                          Next Post <ArrowRight className="h-3 w-3" />
+                        <p className="ds-label flex items-center justify-end gap-1.5 mb-2">
+                          Next <ArrowRight aria-hidden="true" className="h-3 w-3" />
                         </p>
-                        <p className="font-serif text-[#e5e1eb] text-lg italic group-hover:text-[#96DAAF] transition-colors leading-snug">
+                        <p className="text-foreground text-lg font-semibold group-hover:text-primary transition-colors leading-snug">
                           {nextPost.title}
                         </p>
                       </Link>
@@ -237,7 +259,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 {/* ── Further Reading ───────────────────────────────────── */}
                 {furtherReading.length > 0 && (
                   <section className="mt-16">
-                    <h2 className="font-label text-[#e5e1eb] text-xs uppercase tracking-widest mb-6">
+                    <h2 className="ds-label-accent mb-6">
                       Further Reading
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -245,17 +267,17 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                         <Link
                           key={p.slug}
                           href={`/blog/posts/${p.slug}`}
-                          className="block group bg-[#1C1B22] hover:bg-[#201f26] transition-colors p-6 border border-[#404942]/40 rounded-xl"
+                          className="ds-card block group p-6"
                         >
                           {p.category?.main && (
-                            <p className="font-label text-[#96DAAF] text-xs uppercase tracking-widest mb-2">
+                            <p className="ds-label-accent mb-2">
                               {p.category.main}
                             </p>
                           )}
-                          <h3 className="text-[#e5e1eb] font-medium text-sm leading-snug mb-2 group-hover:text-[#b1f7ca] transition-colors">
+                          <h3 className="text-foreground font-semibold text-lg leading-snug mb-2 group-hover:text-primary transition-colors">
                             {p.title}
                           </h3>
-                          <p className="text-[#bfc9c0] text-xs leading-relaxed line-clamp-2">
+                          <p className="text-sm leading-relaxed line-clamp-2">
                             {p.description}
                           </p>
                         </Link>
@@ -268,7 +290,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               {/* ── Right sidebar: Share ──────────────────────────────── */}
               <aside className="hidden lg:block">
                 <div className="sticky top-28">
-                  <p className="font-label text-[#bfc9c0] text-xs uppercase tracking-widest mb-4">
+                  <p className="ds-label mb-4">
                     Share this post
                   </p>
                   <CopyButton url={postUrl} />

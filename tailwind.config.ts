@@ -1,5 +1,9 @@
 import type { Config } from "tailwindcss"
 
+// Every value points at a CSS variable from styles/design-system.css.
+// Change colors, fonts and radii there, not here.
+const hsl = (name: string) => `hsl(var(--${name}) / <alpha-value>)`
+
 const config = {
   darkMode: ["class"],
   content: [
@@ -13,60 +17,70 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1.5rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1120px",
       },
     },
     extend: {
       fontFamily: {
-        serif: ["var(--font-serif)", "Instrument Serif", "serif"],
-        sans: ["var(--font-sans)", "Plus Jakarta Sans", "sans-serif"],
-        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
-        label: ["var(--font-mono)", "JetBrains Mono", "monospace"],
+        sans: ["var(--font-sans)"],
+        mono: ["var(--font-mono)"],
+        // legacy names kept so older components follow the design system
+        serif: ["var(--font-sans)"],
+        label: ["var(--font-mono)"],
       },
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        gray: "var(--gray)",
-        "light-gray": "var(--light-gray)",
-        "accent-color": "var(--accent-color)",
+        // legacy names kept so older components follow the design system
+        gray: hsl("muted-foreground"),
+        "light-gray": hsl("muted-foreground"),
+        "accent-color": hsl("primary"),
+        border: {
+          DEFAULT: hsl("border"),
+          strong: hsl("border-strong"),
+        },
+        input: hsl("input"),
+        ring: hsl("ring"),
+        background: hsl("background"),
+        foreground: hsl("foreground"),
+        subtle: hsl("subtle"),
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: hsl("primary"),
+          hover: hsl("primary-hover"),
+          foreground: hsl("primary-foreground"),
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: hsl("secondary"),
+          foreground: hsl("secondary-foreground"),
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: hsl("destructive"),
+          foreground: hsl("destructive-foreground"),
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: hsl("muted"),
+          foreground: hsl("muted-foreground"),
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: hsl("accent"),
+          foreground: hsl("accent-foreground"),
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: hsl("popover"),
+          foreground: hsl("popover-foreground"),
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: hsl("card"),
+          foreground: hsl("card-foreground"),
         },
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "var(--radius-md)",
+        sm: "var(--radius-sm)",
+      },
+      maxWidth: {
+        container: "var(--container)",
       },
       keyframes: {
         "accordion-down": {

@@ -131,14 +131,14 @@ export function Mdx({ source }: MdxProps) {
           .replace(/[^\w\s-]/g, "")
           .replace(/\s+/g, "-")
         const headingClasses: Record<number, string> = {
-          1: "text-4xl md:text-5xl font-bold mb-6 text-white",
-          2: "text-3xl md:text-4xl font-bold mb-5 text-white",
-          3: "text-2xl md:text-3xl font-bold mb-4 text-white",
-          4: "text-xl md:text-2xl font-bold mb-3 text-white",
-          5: "text-lg md:text-xl font-bold mb-2 text-white",
-          6: "text-base md:text-lg font-bold mb-2 text-white",
+          1: "text-[2rem] font-semibold tracking-tight leading-tight mt-10 mb-4 scroll-mt-24 text-foreground",
+          2: "text-[1.625rem] border-b border-border pb-2 font-semibold tracking-tight leading-tight mt-10 mb-4 scroll-mt-24 text-foreground",
+          3: "text-[1.3125rem] font-semibold tracking-tight leading-tight mt-10 mb-4 scroll-mt-24 text-foreground",
+          4: "text-lg font-semibold tracking-tight leading-tight mt-10 mb-4 scroll-mt-24 text-foreground",
+          5: "text-base font-semibold tracking-tight leading-tight mt-10 mb-4 scroll-mt-24 text-foreground",
+          6: "text-base font-semibold tracking-tight leading-tight mt-10 mb-4 scroll-mt-24 text-foreground",
         }
-        const headingClass = headingClasses[level] || "text-white"
+        const headingClass = headingClasses[level] || "text-foreground"
         return `<h${level} id="${id}" class="${headingClass}">${title}</h${level}>`
       })
       .replace(/!\[([^\]]+)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="my-4 rounded-lg max-w-full h-auto" />')
@@ -167,7 +167,7 @@ export function Mdx({ source }: MdxProps) {
       // Strikethrough: ~~text~~
       .replace(/~~([^~]+)~~/g, '<del>$1</del>')
       // Inline code
-      .replace(/(?<!`)`([^`]+)`(?!`)/g, '<code class="bg-[#1a1a1a] dark:bg-[#2a2a2a] px-2 py-1 rounded-md text-sm font-mono border border-[#e0e0e0] dark:border-[#3a3a3a] text-accent-color">$1</code>')
+      .replace(/(?<!`)`([^`]+)`(?!`)/g, '<code class="bg-card px-1.5 py-0.5 rounded-sm text-[0.875em] font-mono border border-border text-primary">$1</code>')
       // Only wrap as paragraph if not already a block element
       .replace(/^(?!<h|<pre|<ul|<ol|<li|<blockquote|<hr)(.+)$/gm, '<p class="text-gray my-4">$1</p>')
 
@@ -263,7 +263,7 @@ export function Mdx({ source }: MdxProps) {
           .replace(/\*([^*]+)\*/g, '<em class="text-gray">$1</em>')
           .replace(/(^|[\s>\(\[.,;:!?'"-])_([^_\s][^_]*?[^_\s])_(?=[\s<\)\].,!?:;'"]|$)/g, '$1<em class="text-gray">$2</em>')
           .replace(/~~([^~]+)~~/g, '<del>$1</del>')
-          .replace(/(?<!`)`([^`]+)`(?!`)/g, '<code class="bg-[#1a1a1a] dark:bg-[#2a2a2a] px-2 py-1 rounded-md text-sm font-mono border border-[#e0e0e0] dark:border-[#3a3a3a] text-accent-color">$1</code>');
+          .replace(/(?<!`)`([^`]+)`(?!`)/g, '<code class="bg-card px-1.5 py-0.5 rounded-sm text-[0.875em] font-mono border border-border text-primary">$1</code>');
       }
       return line;
     });
@@ -281,10 +281,10 @@ export function Mdx({ source }: MdxProps) {
 
 
       const calloutStyles: Record<string, { Icon: any; container: string; title: string; body: string }> = {
-        note: { Icon: Info, container: 'rounded-md border border-accent-color/20 bg-muted/30 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
-        tip: { Icon: Lightbulb, container: 'rounded-md border border-accent-color/20 bg-muted/30  p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
-        warning: { Icon: AlertTriangle, container: 'rounded-md border border-accent-color/20 bg-muted/30  p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' },
-        abstract: { Icon: FileText, container: 'rounded-md border border-accent-color/20 bg-muted/30 p-4 my-4', title: 'font-semibold text-slate-900 dark:text-white', body: 'text-slate-700 dark:text-gray-300' }
+        note: { Icon: Info, container: 'ds-card p-5 my-6', title: 'font-semibold text-foreground', body: 'text-muted-foreground' },
+        tip: { Icon: Lightbulb, container: 'ds-card p-5 my-6', title: 'font-semibold text-foreground', body: 'text-muted-foreground' },
+        warning: { Icon: AlertTriangle, container: 'ds-card p-5 my-6', title: 'font-semibold text-foreground', body: 'text-muted-foreground' },
+        abstract: { Icon: FileText, container: 'ds-card p-5 my-6', title: 'font-semibold text-foreground', body: 'text-muted-foreground' }
       }
 
       const style = calloutStyles[type] || calloutStyles['note']

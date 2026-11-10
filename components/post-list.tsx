@@ -66,10 +66,11 @@ export default function PostFilters({ posts }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-2 mb-10">
       <button
-        className={`font-label text-xs uppercase tracking-wider px-4 py-1.5 rounded-xl transition-colors ${
+        aria-pressed={filter === "all"}
+        className={`font-mono text-xs font-medium uppercase tracking-wider min-h-10 px-4 rounded-md transition-colors ${
           filter === "all"
-            ? "bg-[#96DAAF] text-[#131319]"
-            : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+            ? "bg-primary text-primary-foreground border border-primary"
+            : "text-muted-foreground hover:text-foreground border border-border hover:border-border-strong"
         }`}
         onClick={() => applyFilter("all")}
       >
@@ -78,10 +79,11 @@ export default function PostFilters({ posts }: Props) {
       {visibleCategories.map((c) => (
         <button
           key={c.key}
-          className={`font-label text-xs uppercase tracking-wider px-4 py-1.5 rounded-xl transition-colors ${
+          aria-pressed={filter === c.key}
+          className={`font-mono text-xs font-medium uppercase tracking-wider min-h-10 px-4 rounded-md transition-colors ${
             filter === c.key
-              ? "bg-[#96DAAF] text-[#131319]"
-              : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+              ? "bg-primary text-primary-foreground border border-primary"
+              : "text-muted-foreground hover:text-foreground border border-border hover:border-border-strong"
           }`}
           onClick={() => applyFilter(c.key)}
         >
@@ -92,8 +94,8 @@ export default function PostFilters({ posts }: Props) {
       {overflowCategories.length > 0 && (
         <div className="relative" ref={dropdownRef}>
           <button
-            className={`font-label text-xs uppercase tracking-wider px-4 py-1.5 flex items-center gap-1.5 transition-colors ${
-              open ? "text-[#e5e1eb]" : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+            className={`font-mono text-xs font-medium uppercase tracking-wider min-h-10 px-4 rounded-md border border-border flex items-center gap-1.5 transition-colors ${
+              open ? "text-foreground" : "text-muted-foreground hover:text-foreground"
             }`}
             onClick={() => setOpen((s) => !s)}
             aria-expanded={open}
@@ -105,14 +107,12 @@ export default function PostFilters({ posts }: Props) {
           </button>
 
           {open && (
-            <div className="absolute left-0 mt-2 w-44 border border-[#404942]/40 z-50 py-1 rounded-xl overflow-hidden" style={{ backgroundColor: "#201f26" }}>
+            <div className="absolute left-0 mt-2 w-48 ds-card z-50 py-1 overflow-hidden">
               {overflowCategories.map((c) => (
                 <button
                   key={c.key}
-                  className={`font-label text-xs uppercase tracking-wider w-full text-left px-4 py-2.5 transition-colors ${
-                    filter === c.key
-                      ? "text-[#96DAAF]"
-                      : "text-[#bfc9c0] hover:text-[#e5e1eb]"
+                  className={`font-mono text-xs uppercase tracking-wider w-full text-left px-4 py-3 transition-colors hover:bg-secondary ${
+                    filter === c.key ? "text-primary" : "text-muted-foreground hover:text-foreground"
                   }`}
                   onClick={() => {
                     applyFilter(c.key)

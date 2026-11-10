@@ -1,17 +1,21 @@
 'use client'
-import { Copy } from "lucide-react"
+import { useState } from "react"
+import { Check, Copy } from "lucide-react"
 
 export function CopyButton({ url }: { url: string }) {
+  const [copied, setCopied] = useState(false)
   return (
     <div className="flex flex-col gap-2">
       <button
         onClick={() => {
           navigator.clipboard.writeText(url)
+          setCopied(true)
+          setTimeout(() => setCopied(false), 2000)
         }}
-        className="flex items-center gap-2 text-[#bfc9c0] text-xs uppercase tracking-widest px-3 py-2 rounded-xl border border-[#404942]/40 bg-[#1C1B22] hover:bg-[#201f26] hover:text-[#e5e1eb] transition-colors w-fit"
+        className="ds-btn ds-btn-secondary min-h-10 px-3.5 text-sm w-fit"
       >
-        <Copy className="h-3 w-3" />
-        Copy Link
+        {copied ? <Check aria-hidden="true" className="h-4 w-4 text-primary" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
+        {copied ? "Copied" : "Copy link"}
       </button>
     </div>
   )

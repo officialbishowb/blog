@@ -26,7 +26,7 @@ export function CategoryBadge({ category }: CategoryBadgeProps) {
       <div className="flex items-center gap-1">
         <Link
           href={`/blog/category/${category.main}`}
-          className="bg-accent-color/10 hover:bg-accent-color/20 text-primary cursor-pointer rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors whitespace-nowrap"
+          className="ds-chip text-primary border-primary/40 hover:bg-primary/10 transition-colors whitespace-nowrap"
         >
           {truncateText(formatCategoryName(category.main))}
         </Link>
@@ -35,7 +35,7 @@ export function CategoryBadge({ category }: CategoryBadgeProps) {
             <ArrowRightFromLine className="w-4 h-4" />
             <Link
               href={`/blog/category/${category.main}/${category.sub}`}
-              className="bg-accent-color/10 hover:bg-accent-color/20 text-primary cursor-pointer rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors whitespace-nowrap"
+              className="ds-chip text-primary border-primary/40 hover:bg-primary/10 transition-colors whitespace-nowrap"
             >
               {truncateText(formatCategoryName(category.sub))}
             </Link>
